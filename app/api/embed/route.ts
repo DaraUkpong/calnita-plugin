@@ -3,10 +3,8 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  // Access the environment variable using NEXT_PUBLIC_ prefix
   const APP_URL = process.env.APP_URL;
 
-  // JavaScript content with the APP_URL injected
   const scriptContent = `
     (function() {
       var style = document.createElement('style');
@@ -32,8 +30,10 @@ export async function GET() {
           position: fixed;
           bottom: 3rem;
           right: 2rem;
-          width: 450px;
-          height: 600px;
+          width: 90%;
+          max-width: 450px;
+          height: 80vh;
+          max-height: 600px;
           padding: 2px;
           border-radius: 20px;
           background: linear-gradient(90deg,  #f92a63, #000, #000);
@@ -52,6 +52,25 @@ export async function GET() {
           transform: scale(0);
           opacity: 0;
           pointer-events: none;
+        }
+        @media (max-width: 768px) {
+          .calnita-widget-container {
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            max-height: none;
+            border-radius: 0;
+          }
+          .calnita-widget-iframe {
+            border-radius: 0;
+          }
+          .calnita-widget-button {
+            bottom: 10px;
+            right: 10px;
+            width: 50px;
+            height: 50px;
+          }
         }
       \`;
       document.head.appendChild(style);
@@ -76,6 +95,9 @@ export async function GET() {
 
       function toggleWidget() {
         container.classList.toggle('collapsed');
+        if (!container.classList.contains('collapsed')) {
+          iframe.contentWindow.postMessage({ type: 'WIDGET_OPENED' }, '*');
+        }
       }
 
       button.addEventListener('click', toggleWidget);
@@ -92,11 +114,29 @@ export async function GET() {
         }
       });
 
-      // ... rest of the code ...
+      // Adjust widget size on window resize
+      window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+          container.style.width = '100%';
+          container.style.height = '100%';
+          container.style.bottom = '0';
+          container.style.right = '0';
+          container.style.borderRadius = '0';
+          iframe.style.borderRadius = '0';
+        } else {
+          container.style.width = '90%';
+          container.style.height = '80vh';
+          container.style.maxWidth = '450px';
+          container.style.maxHeight = '600px';
+          container.style.bottom = '3rem';
+          container.style.right = '2rem';
+          container.style.borderRadius = '20px';
+          iframe.style.borderRadius = '20px';
+        }
+      });
     })();
   `;
 
-  // Set the response headers to serve as JavaScript
   return new NextResponse(scriptContent, {
     headers: {
       'Content-Type': 'application/javascript',
