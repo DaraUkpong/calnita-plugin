@@ -23,7 +23,7 @@ const partnerWebsites = [
   {
     id: '2',
     name: 'RDX',
-    url: 'http://www.calnita.com',
+    url: 'https://www.calnita.com',
     apiKey: 'calnita',
   },
   // Add more partner websites as needed
