@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Provider from "./components/Provider";
+import localFont from "next/font/local";
 
 const inter = Inter({ subsets: ["latin"] });
+const mulish = localFont({ src: "./font/mulish.ttf", });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className="h-full">
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <body className={`${mulish.className} h-full bg-white flex flex-col items-center`}>
+        <Provider>{children}</Provider>
+        {/* <div className="flex flex-row w-full h-fit items-center justify-between text-[8px] px-4 py-2">
+
+          <span>powered bby calnita</span>
+          <span>logo</span>
+        </div> */}
+      </body>
     </html>
   );
 }

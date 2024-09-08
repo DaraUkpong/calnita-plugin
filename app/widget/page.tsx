@@ -1,0 +1,367 @@
+// app/widget/page.tsx
+
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { gql } from "graphql-request";
+import { UserProfile, Product, PartnerWebsite } from "../types";
+import { useRouter, useSearchParams } from "next/navigation";
+import { graphqlClient } from "@/utils/graphql-client";
+import OnboardingForm from "../components/onboardingForm";
+import ProductList from "../components/productList";
+import { generateMockRecommendations, getUniqueFilters } from "@/utils/mockdata";
+// Add this import
+
+const GET_RECOMMENDATIONS = gql`
+  query GetRecommendations($userId: ID!, $partnerWebsiteUrl: String!) {
+    getRecommendations(userId: $userId, partnerWebsiteUrl: $partnerWebsiteUrl) {
+      id
+      name
+      brand
+      category
+      price
+      image
+    }
+  }
+`;
+
+import FilterCarousel from '../components/FilterCarousel';
+const WidgetPage: React.FC = () => {
+  const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleAuth = async () => {
+      if (status === "authenticated" && session) {
+        // Send message to parent window about successful authentication
+        window.parent.postMessage(
+          { type: "GOOGLE_SIGN_IN_SUCCESS", session },
+          "*"
+        );
+
+        // If this is a popup window, close it
+        if (window.opener) {
+          window.close();
+        }
+      }
+    };
+
+    handleAuth();
+  }, [status, session]);
+
+  // Add this new useEffect for handling messages
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === "REFRESH_AUTH") {
+        // Refresh the session
+        router.refresh();
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, [router]);
+
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [submitting, setSubmitting] = useState(false)
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("C-");
+  const [error, setError] = useState("");
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [recommendations, setRecommendations] = useState<Product[]>([]);
+  const [partnerWebsite, setPartnerWebsite] = useState<PartnerWebsite | null>(
+    null
+  );
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [isOtpSent, setIsOtpSent] = useState(false);
+
+  useEffect(() => {
+    const websiteUrl = new URL(document.referrer).origin;
+    // Fetch partner website info (you'll need to implement this API)
+    fetch(`/api/partner-website?url=${websiteUrl}`)
+      .then((res) => res.json())
+      .then((data) => setPartnerWebsite(data));
+
+    // Use mock recommendations for now
+    if (status === "authenticated" && session?.user?.personalInfo!) {
+      const userPreferences = session?.user;
+      const mockRecommendations = generateMockRecommendations(userPreferences);
+
+      setRecommendations(mockRecommendations);
+    }
+  }, [status, session]);
+
+  const handleToggleFilter = (filter: string) => {
+    setSelectedFilters((prev) => 
+      prev.includes(filter) ? prev.filter(f => f !== filter) : [...prev, filter]
+    );
+  };
+
+  const uniqueFilters = getUniqueFilters(recommendations);
+  // Comment out or remove the fetchRecommendations function for now
+
+  const handleOnboardingSubmit = async (formData: any) => {
+    if (!session?.user?.email) {
+      console.error("User not authenticated");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/update-user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          input: {
+            userId: session.user.id,
+            ...formData,
+          },
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log(data);
+        setUserProfile(data.user);
+        // Update the session with the new personalInfo
+        const newSession = {
+          ...session,
+          user: {
+            ...session.user,
+            personalInfo: data.user.personalInfo,
+          },
+        };
+        await fetch("/api/auth/session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newSession),
+        });
+        const websiteUrl = new URL(document.referrer).origin;
+        // fetchRecommendations(session.user.id, websiteUrl);
+      } else {
+        console.error("Failed to update user profile:", data.code);
+      }
+    } catch (error) {
+      console.error("Error creating user profile:", error);
+    }
+  };
+
+  const handleSignIn = async () => {
+    try {
+      setSubmitting(true)
+      if (showForm && !isOtpSent) {
+        fetch(`/api/auth/request-otp`, {
+          method: "POST",
+          body: JSON.stringify({ email: email }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setIsOtpSent(true)
+          setSubmitting(false) });
+      } else {
+        const result = await signIn("email-otp", {
+          email,
+          otp,
+          redirect: false,
+        });
+      }
+    } catch (err) {
+      setError("An error occurred");
+      setSubmitting(false) 
+    }
+  };
+  const handleGoogleSignIn = async () => {
+    const parentUrl = encodeURIComponent(partnerWebsite?.url || "");
+
+    // Open a new window for Google sign-in
+    const width = 500;
+    const height = 600;
+    const left = window.screenX + (window.outerWidth - width) / 2;
+    const top = window.screenY + (window.outerHeight - height) / 2.5;
+
+    const newWindow = window.open(
+      "${process.env.APP_URL}/auth/google?parentUrl=${parentUrl}",
+      "Google Sign In",
+      `width=${width},height=${height},left=${left},top=${top}`
+    );
+
+    if (newWindow) {
+    
+      // Call signIn in the new window
+      newWindow.location.href = `/auth/google?parentUrl=${parentUrl}&provider=google`;
+    } else {
+      // If popup is blocked, try to sign in in the current window
+      await signIn("google", {
+        callbackUrl: `${process.env.APP_URL}/auth/callback`,
+        redirect: false,
+      });
+    }
+  };
+
+  if (status === "loading") {
+    return <div className="text-center flex h-full w-full flex-col items-center justify-center">Loading...</div>;
+  }
+
+  if (status === "unauthenticated") {
+    return (
+      <div className="w-full h-full flex flex-col p-8 gap-10 justify-center text-black bg-transparent">
+        <div className="flex flex-col w-full gap-2 ">
+          <h1 className="text-5xl">
+            {showForm
+              ? `📝 Get Started`
+              : ` 👋Welcome to ${partnerWebsite?.name}!`}{" "}
+          </h1>
+          {!showForm && (
+            <p>I&apos;m calnita AI, your virtual beauty assistant. </p>
+          )}
+        </div>
+        {showForm ? (
+          <div className="w-full flex flex-col items-center gap-3">
+            <label
+              htmlFor=""
+              className="flex flex-col items-start gap-3 w-full"
+            >
+              <span className="text-xs text-gray-500">
+                Enter your Email Address
+              </span>
+              <input
+                type="email"
+                className="w-full p-3 rounded-3xl border focus:outline-none border-gray-800 focus:ring-0"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                disabled={isOtpSent}
+              />
+            </label>
+            {isOtpSent && (
+              <input
+                type="string"
+                placeholder="C-49583"
+                className="w-full p-3 rounded-3xl border border-gray-800 focus:ring-0"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+              />
+            )}
+            <button
+            type="button"
+              onClick={handleGoogleSignIn}
+              className="flex flex-row items-center gap-2 text-[#344054] mt-3 tracking-wide"
+            >
+              <img src="/googleIcon.svg" alt="" className="w-6 h-6" />
+              <span>Continue with Google</span>
+            </button>
+           
+          </div>
+        ) : (
+          <p>
+            Let&apos;s create your personalized Beauty Profile for tailored
+            recommendations, exclusive rewards, and more. How can I assist you
+            today? 😊
+          </p>
+        )}
+
+        {!showForm ? (
+          <button
+            onClick={() => setShowForm(true)}
+            disabled={submitting}
+            className="mt-4 p-5 bg-black disabled:opacity-65 text-white rounded-3xl cursor-pointer"
+          >
+           {submitting ? "..." : "Let's go!"} Let&apos; go!
+          </button>
+        ) : (
+          <button
+            onClick={handleSignIn}
+            disabled={submitting}
+            className="mt-4 p-5 bg-black disabled:opacity-65 text-white rounded-3xl cursor-pointer"
+          >
+            {submitting ? "..." :isOtpSent ? "Verify OTP" : "Send OTP"}
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className="w-full h-full max-h-full flex flex-col  justify-end overflow-hidden text-black bg-transparent"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {session?.user?.personalInfo && (
+        <div className="flex flex-row w-full gap-2 px-4 py-6 items-center">
+          <div className="w-fit">
+            <h1 className="text-3xl w-fit font-semibold text-[#222222]">
+              🎉  Your Personalized Recomendations
+            </h1>
+          </div>
+          <div className="rounded-full overflow-hidden flex flex-col items-center justify-center h-full w-1/5">
+            {" "}
+            <img
+              src="https://res.cloudinary.com/df8kki6aw/image/upload/v1716378923/calnita/products/664dcfcf00a84d9a09e0810a/coverPhoto.jpg"
+              alt=""
+              className="h-16 rounded-full w-16 object-cover bg-gray-200"
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="h-fit px-4 flex flex-col items-center justify-end mb-6">
+        {!session?.user?.personalInfo ? (
+          <OnboardingForm onSubmit={handleOnboardingSubmit} />
+        ) : (
+          <div className="w-full h-fit p-2 bg-[#DBB9B9]/25 rounded-3xl ">
+            <h2 className="text-xl font-semibold p-4">
+              Based on Your Preferrences
+            </h2>
+            <FilterCarousel
+        filters={[...uniqueFilters.categories, ...uniqueFilters.brands, ...uniqueFilters.ingredients]} 
+        selectedFilters={selectedFilters} 
+        onToggleFilter={handleToggleFilter} 
+      />
+            <ProductList products={recommendations} />
+          </div>
+        )}
+      </div>
+      {!session?.user?.personalInfo ? null : (
+        <div className="flex flex-row h-[10%] justify-between px-4 my-3 w-full gap-2 bg-[#A3A3A3]/">
+          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black">
+            <img src="/foryou.png" className="" alt="" />
+            <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              For You
+            </p>
+          </button>
+          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black">
+            <img src="/routine.png" alt="" />
+            <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              Routine
+            </p>
+          </button>
+          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black">
+            <img src="/share.png" alt="" />
+            <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              Share
+            </p>
+          </button>
+          <button
+            onClick={() => signOut()}
+            className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black"
+          >
+            <img src="/aichat.png" alt="" />
+            <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              LogOut
+            </p>
+          </button>
+        </div>
+      )}
+    </motion.div>
+  );
+};
+
+export default WidgetPage;

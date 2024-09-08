@@ -1,0 +1,32 @@
+"use client";
+
+import { useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+
+export default function AuthCallback() {
+  const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+  const parentUrl = searchParams.get("parentUrl");
+
+  const handleGoogleSignIn = async (url: string) => {
+    // If popup is blocked, try to sign in in the current window
+    await signIn("google", {
+      callbackUrl: `${process.env.APP_URL}/auth/callback?parentUrl=${encodeURIComponent(parentUrl!)}`,
+      redirect: false,
+    });
+  };
+  useEffect(() => {
+   
+    console.log(parentUrl);
+     if (status === 'authenticated') {
+      // Close the window and send a message to the parent
+      window.opener.postMessage({ type: 'GOOGLE_SIGN_IN_SUCCESS', session }, '*');
+      window.close();
+    } else if (status === 'unauthenticated') {
+      handleGoogleSignIn(parentUrl!);
+    }
+  }, [status, session, searchParams]);
+
+  // return <div>Authentication complete. You can close this window.</div>;
+}
