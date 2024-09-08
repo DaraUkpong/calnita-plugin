@@ -10,6 +10,7 @@ import {
 } from "../lib/ProductUtils";
 import { ReactElement, useState } from "react";
 import { Countries } from "../lib/countries";
+import StepForm from "./createStepForm";
 
 export interface CheckboxTypes {
   placeholder: string;
@@ -149,66 +150,6 @@ const createCheckboxInput = (
   />
 );
 
-const createStepForm = (steps: ReactElement[], section: string) => {
-  const {values, isSubmitting, handleSubmit } = useFormikContext<any>();
-  console.log(isSubmitting, values)
-  const {
-    steps: totalSteps,
-    currentStepIndex,
-    step,
-    next,
-    back,
-    isLastStep,
-  } = useMultistepForm(steps);
-  return (
-    <div className="flex flex-col pt-6 w-full items-start h-full justify-between">
-      <div className="w-full flex flex-col items-start gap-8 h-fit">
-        <div className="flex flex-col items-start w-full gap-2">
-          <div className="flex flex-row w-full items-center justify-between text-xs">
-            <span>{section}</span>
-            <span>{currentStepIndex + 1 + " of " + totalSteps.length}</span>
-          </div>
-          <div className="w-full flex flex-row justify-start items-center h-1 bg-gray-200 rounded-l-md rounded-r-md overflow-hidden">
-            <div
-              className={`h-full bg-black rounded-r-md transition-all duration-400`}
-              style={{
-                width: `${((currentStepIndex + 1) / totalSteps.length) * 100}%`,
-              }}
-            />
-          </div>
-        </div>
-        {step}
-      </div>
-
-      <div className="flex flex-row h-[10%] w-full justify-between items-center">
-        <button
-          type="button"
-          onClick={back}
-          className="p-2 bg-black w-2/5 h-full text-white rounded-3xl cursor-pointer"
-        >
-          Back
-        </button>
-        <button
-          type="button"
-          disabled={isSubmitting}
-          onClick={() => {
-            if (isLastStep) {
-              // Manually trigger form submission
-             handleSubmit()
-            } else {
-              // Move to the next step
-              next();
-            }
-          }}
-          className="p-2 w-2/5 bg-black h-full disabled:opacity-85 text-white rounded-3xl cursor-pointer"
-        >
-         {isSubmitting ? "..." : isLastStep ? "Let's Go!" : "Next"}
-          
-        </button>
-      </div>
-    </div>
-  );
-};
 
 export const CustomSwitchInput = ({ values }: { values: string }) => {
   const personalQuestions = [
@@ -248,7 +189,7 @@ export const CustomSwitchInput = ({ values }: { values: string }) => {
   ];
   switch (values) {
     case "Skincare":
-      return createStepForm(
+      return StepForm(
         [
           createCheckboxInput(
             1,
@@ -291,7 +232,7 @@ export const CustomSwitchInput = ({ values }: { values: string }) => {
       );
 
     case "Haircare":
-      return createStepForm(
+      return StepForm(
         [
           createCheckboxInput(
             1,
@@ -341,7 +282,7 @@ export const CustomSwitchInput = ({ values }: { values: string }) => {
       );
 
     case "Cosmetics":
-      return createStepForm(
+      return StepForm(
         [
           createCheckboxInput(
             1,
@@ -376,7 +317,7 @@ export const CustomSwitchInput = ({ values }: { values: string }) => {
       );
 
     case "Fragrance":
-      return createStepForm(
+      return StepForm(
         [
           createCheckboxInput(
             1,
