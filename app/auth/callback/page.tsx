@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 
-export default function AuthCallback() {
+function AuthCallback() {
   const { data: session, status } = useSession();
   const searchParams = useSearchParams();
 
@@ -23,4 +23,12 @@ export default function AuthCallback() {
   }, [status, session, searchParams]);
 
   return <div>Authentication complete. You can close this window.</div>;
+}
+
+export default function AuthCallbackWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AuthCallback />
+    </Suspense>
+  );
 }

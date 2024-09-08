@@ -30,7 +30,6 @@ const GET_RECOMMENDATIONS = gql`
 import FilterCarousel from '../components/FilterCarousel';
 const WidgetPage: React.FC = () => {
   const { data: session, status } = useSession();
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
