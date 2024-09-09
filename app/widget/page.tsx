@@ -217,7 +217,7 @@ const WidgetPage: React.FC = () => {
               : ` 👋Welcome to ${partnerWebsite?.name}!`}{" "}
           </h1>
           {!showForm && (
-            <p>I&apos;m calnita AI, your virtual beauty assistant. </p>
+            <p className="md:text-sm text-xs">I&apos;m calnita AI, your virtual beauty assistant. </p>
           )}
         </div>
         {showForm ? (
@@ -258,7 +258,7 @@ const WidgetPage: React.FC = () => {
            
           </div>
         ) : (
-          <p>
+          <p className="md:text-sm text-xs">
             Let&apos;s create your personalized Beauty Profile for tailored
             recommendations, exclusive rewards, and more. How can I assist you
             today? 😊
