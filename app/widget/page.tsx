@@ -209,7 +209,7 @@ const WidgetPage: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div className="w-full h-full flex flex-col py-8 px-4 gap-10 justify-center text-black bg-transparent">
+      <div className="w-full h-full flex flex-col py-8 px-8 gap-10 items-center justify-center text-black bg-transparent">
         <div className="flex flex-col w-full gap-2 ">
           <h1 className="md:text-5xl text-3xl">
             {showForm
@@ -258,7 +258,7 @@ const WidgetPage: React.FC = () => {
            
           </div>
         ) : (
-          <p className="md:text-sm text-xs">
+          <p className="md:text-sm text-xs text-[#737373] font-light">
             Let&apos;s create your personalized Beauty Profile for tailored
             recommendations, exclusive rewards, and more. How can I assist you
             today? 😊
@@ -269,7 +269,7 @@ const WidgetPage: React.FC = () => {
           <button
             onClick={() => setShowForm(true)}
             disabled={submitting}
-            className="mt-4 p-5 bg-black disabled:opacity-65 text-white rounded-3xl cursor-pointer"
+            className="mt-4 py-3 w-[80%] bg-black disabled:opacity-65 text-white rounded-xl cursor-pointer"
           >
            {submitting ? "..." : "Let's go!"}
           </button>
@@ -277,9 +277,9 @@ const WidgetPage: React.FC = () => {
           <button
             onClick={handleSignIn}
             disabled={submitting}
-            className="mt-4 p-5 bg-black disabled:opacity-65 text-white rounded-3xl cursor-pointer"
+            className="mt-4 py-3 bg-black disabled:opacity-65 text-xs text-white rounded-xl cursor-pointer"
           >
-            {submitting ? "..." :isOtpSent ? "Verify OTP" : "Send OTP"}
+            {submitting ? "..." : isOtpSent ? "Verify OTP" : "Send OTP"}
           </button>
         )}
       </div>
@@ -316,7 +316,7 @@ const WidgetPage: React.FC = () => {
           <OnboardingForm onSubmit={handleOnboardingSubmit} />
         ) : (
           <div className="w-full h-fit p-2 bg-[#DBB9B9]/25 rounded-3xl ">
-            <h2 className="text-xl font-semibold p-4">
+            <h2 className="md:text-xl text-base font-semibold p-4">
               Based on Your Preferrences
             </h2>
             <FilterCarousel

@@ -30,7 +30,7 @@ const OnboardingForm: React.FC<OnboardingFormProps> = ({ onSubmit }) => {
         <Form className="flex flex-col h-full justify-end gap-8">
           {currentStep === 0 && (
             <>
-              <h1 className="text-4xl font-[500]">💖 Tell Us About Your Beauty Needs</h1>
+              <h1 className="md:text-4xl text-2xl font-[500]">💖 Tell Us About Your Beauty Needs</h1>
               <div className="flex flex-col w-full items-start h-1/2">
                 <CustomCheckboxInput
                   placeholder={"Select category"}

@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <script src="https://apis.google.com/js/platform.js" async defer></script>
-      <body className={`${mulish.className} h-full bg-white flex flex-col items-center`}>
+      <body className={`${mulish.className} h-full bg-[#FAF6F6] flex flex-col items-center`}>
         <Provider>{children}</Provider>
         {/* <div className="flex flex-row w-full h-fit items-center justify-between text-[8px] px-4 py-2">
 
