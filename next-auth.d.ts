@@ -12,7 +12,7 @@ declare module "next-auth" {
       age?: number;
       country?: string;
       gender?: string;
-    };
+    } ;
     skinCare?: {
       skinType?: string;
       primaryConcerns?: string[];

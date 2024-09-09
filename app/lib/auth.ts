@@ -87,25 +87,34 @@ export const authOptions: NextAuthOptions = {
       console.log("Redirecting to default baseUrl");
       return parentUrl ? parentUrl : baseUrl
     },
-    async jwt({ token, user, account }) {
-      if (account && account.provider === 'google') {
+    async  jwt({ token, user, account }) {
+      if (account && account.provider === "google") {
         token.accessToken = account.access_token!;
         token.idToken = account.id_token!;
       }
-      
+    
       if (user) {
         token.accessToken = token.accessToken || user.accessToken;
         token.refreshToken = user.refreshToken;
-        token.user = {
+    
+        // Utility function to check if none of the values in an object are null
+        const areAllFieldsNonNull = <T>(obj?: T): obj is T => {
+          return obj ? Object.values(obj).every((value) => value !== null) : false;
+        };
+    
+        // Set fields only if none of their values are null
+        const filteredUser = {
           id: user.id,
           email: user.email,
-          personalInfo: user.personalInfo,
-          skinCare: user.skinCare,
-          fragrance: user.fragrance,
-          makeup: user.makeup,
-          hairCare: user.hairCare,
-          productPreferences: user.productPreferences,
+          personalInfo: areAllFieldsNonNull(user.personalInfo) ? user.personalInfo : undefined,
+          skinCare: areAllFieldsNonNull(user.skinCare) ? user.skinCare : undefined,
+          fragrance: areAllFieldsNonNull(user.fragrance) ? user.fragrance : undefined,
+          makeup: areAllFieldsNonNull(user.makeup) ? user.makeup : undefined,
+          hairCare: areAllFieldsNonNull(user.hairCare) ? user.hairCare : undefined,
+          productPreferences: areAllFieldsNonNull(user.productPreferences) ? user.productPreferences : undefined,
         };
+    
+        token.user = filteredUser;
       }
     
       return token;
