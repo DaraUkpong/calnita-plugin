@@ -141,4 +141,7 @@ export const authOptions: NextAuthOptions = {
     signIn: "/widget",
     
   },
+  session: {
+    strategy: "jwt",
+  },
 };
