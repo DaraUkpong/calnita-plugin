@@ -209,9 +209,9 @@ const WidgetPage: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div className="w-full h-full flex flex-col py-8 px-8 gap-10 items-center justify-center text-black bg-transparent">
+      <div className="w-full h-full flex flex-col py-8 px-4 gap-10 items-center justify-center text-black bg-transparent">
         <div className="flex flex-col w-full gap-2 ">
-          <h1 className="md:text-5xl text-3xl">
+          <h1 className="md:text-5xl text-2xl">
             {showForm
               ? `📝 Get Started`
               : ` 👋Welcome to ${partnerWebsite?.name}!`}{" "}
