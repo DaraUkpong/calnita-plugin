@@ -152,46 +152,50 @@ const WidgetPage: React.FC = () => {
 
   const handleSignIn = async () => {
     try {
-      setSubmitting(true); // Start submission
-  
-      if (showForm && !isOtpSent) {
-        // Request OTP if form is shown and OTP is not yet sent
-        const response = await fetch(`/api/auth/request-otp`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: email }),
-        });
-  
-        if (!response.ok) {
-          throw new Error("Failed to request OTP");
+        setSubmitting(true); // Start submission
+        console.log("Submitting sign-in...");
+
+        if (showForm && !isOtpSent) {
+            console.log("Requesting OTP for email:", email);
+            const response = await fetch(`/api/auth/request-otp`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: email }),
+            });
+
+            if (!response.ok) {
+                console.error("Failed to request OTP:", response.statusText);
+                throw new Error("Failed to request OTP");
+            }
+
+            const data = await response.json();
+            console.log("OTP request successful:", data);
+            setIsOtpSent(true);
+            setSubmitting(false); // End submission
+        } else {
+            console.log("Signing in with OTP:", otp);
+            const result = await signIn("email-otp", {
+                email,
+                otp,
+                redirect: false, // Ensure redirect is handled correctly
+            });
+
+            if (result?.error) {
+                console.error("Sign-in error:", result.error);
+                throw new Error(result.error);
+            }
+
+            console.log("Sign-in successful:", result);
+            setSubmitting(false); // End submission
         }
-  
-        const data = await response.json();
-        setIsOtpSent(true);
-        setSubmitting(false); // End submission
-      } else {
-        // Handle the sign-in process with the OTP
-        const result = await signIn("email-otp", {
-          email,
-          otp,
-          redirect: false, // Ensure redirect is handled correctly
-        });
-  
-        if (result?.error) {
-          throw new Error(result.error);
-        }
-  
-        // Handle post-sign-in actions (e.g., close modal, redirect)
-        setSubmitting(false); // End submission
-      }
     } catch (err: any) {
-      // Handle errors
-      setError(err.message || "An error occurred");
-      setSubmitting(false); // Ensure submission state is reset on error
+        console.error("Error during sign-in:", err);
+        setError(err.message || "An error occurred");
+        setSubmitting(false); // Ensure submission state is reset on error
     }
-  };
+};
   
   const handleGoogleSignIn = async () => {
     const parentUrl = encodeURIComponent(partnerWebsite?.url || "");
