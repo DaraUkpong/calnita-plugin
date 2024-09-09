@@ -59,7 +59,7 @@ export async function GET() {
             bottom: 5vh;
             right: 5%;
             width: 80%;
-            height: 60vh;
+            height: 50vh;
             min-height: 50vh;
             max-height: 80vh;
           }
