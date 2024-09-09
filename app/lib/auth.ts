@@ -64,6 +64,17 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  cookies: {
+    sessionToken: {
+      name: `__Secure-next-auth.session-token`, // Use a secure cookie name
+      options: {
+        httpOnly: true, // Prevent JavaScript access to the cookie
+        secure: process.env.NODE_ENV === "production", // Set to true in production
+        sameSite: "None", // Allow cross-origin requests
+        path: "/", // Cookie path
+      },
+    },
+  },
   callbacks: {
     // async redirect({ url, baseUrl }) {
     //   console.log("Redirect URL:", url);
