@@ -114,7 +114,7 @@ export const CustomCheckboxInput = (props: CheckboxTypes) => {
           value={fieldValue?.replace("Yes (Please Specify): ", "") || ""}
           onChange={handleSpecificationChange}
           placeholder="Please specify"
-          className="mt-2 py-3 px-3 text-xs md:text-sm border font-extralight rounded-3xl border-solid focus:ring-0 focus:outline-none border-gray-300"
+          className="mt-2 md:py-3 py-2 px-3 text-[10px] md:text-sm border font-extralight rounded-3xl border-solid focus:ring-0 focus:outline-none border-gray-300"
         />
       )}
     </div>

@@ -21,7 +21,7 @@ const StepForm = ( steps: ReactElement[], section: string ) => {
   } = useMultistepForm(steps);
 
   return (
-    <div className="flex flex-col md:pt-6 pt-3 md:px-4 px-1 w-full items-start h-full justify-between">
+    <div className="flex flex-col md:pt-6 pt-4 md:px-4 px-1 w-full items-start h-full justify-between">
       <div className="w-full flex flex-col items-start md:gap-8 gap-3 h-fit">
         <div className="flex flex-col items-start w-full md:gap-2 gap-1">
           <div className="flex flex-row w-full items-center justify-between md:text-xs text-[10px]">

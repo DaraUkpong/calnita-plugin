@@ -32,6 +32,11 @@
   text-align:center;
   display:block;
 }
+#ck-button  span {
+  text-align:center;
+  display:block;
+  @apply md:text-xs text-[10px]
+}
 
 #ck-button label input {
   display: none;
