@@ -58,8 +58,8 @@ export async function GET() {
           .calnita-widget-container {
             bottom: 5vh;
             right: 5%;
-            width: 70%;
-            height: 50vh;
+            width: 75%;
+            height: 55vh;
             min-height: 50vh;
             max-height: 80vh;
           }

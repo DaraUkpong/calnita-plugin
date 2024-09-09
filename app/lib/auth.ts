@@ -72,8 +72,25 @@ export const authOptions: NextAuthOptions = {
       console.log("Redirect URL:", url);
       console.log("Base URL:", baseUrl);
       
+      // Parse the incoming URL
       const urlObj = new URL(url, baseUrl);
-      const parentUrl = urlObj.searchParams.get('parentUrl');
+      
+      // Check for parentUrl in the state parameter (for Google sign-in)
+      const stateParam = urlObj.searchParams.get('state');
+      let parentUrl;
+      if (stateParam) {
+        try {
+          const stateObj = JSON.parse(decodeURIComponent(stateParam));
+          parentUrl = stateObj.parentUrl;
+        } catch (error) {
+          console.error("Error parsing state parameter:", error);
+        }
+      }
+      
+      // If no parentUrl in state, check in the URL params (for credential sign-in)
+      if (!parentUrl) {
+        parentUrl = urlObj.searchParams.get('parentUrl');
+      }
       
       if (parentUrl) {
         console.log("Parent URL found:", parentUrl);
@@ -85,11 +102,10 @@ export const authOptions: NextAuthOptions = {
           console.log("Redirecting to:", redirectUrl.toString());
           return redirectUrl.toString();
         }
-        return parentUrl ? parentUrl : baseUrl
       }
       
       console.log("Redirecting to default baseUrl");
-      return parentUrl ? parentUrl : baseUrl
+      return baseUrl;
     },
     async jwt({ token, user, account }) {
       console.log("JWT Callback Triggered");

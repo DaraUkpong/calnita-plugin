@@ -29,9 +29,14 @@ export const CustomCheckboxInput = (props: CheckboxTypes) => {
   const fieldValue = getIn(values, field);
 
   // Determine if the allergies field is set to 'Yes'
-  const isAllergic = fieldValue === "Yes (Please Specify)" || (typeof fieldValue === 'string' && fieldValue.startsWith("Yes (Please Specify):"));
+  const isAllergic =
+    fieldValue === "Yes (Please Specify)" ||
+    (typeof fieldValue === "string" &&
+      fieldValue.startsWith("Yes (Please Specify):"));
 
-  const handleSpecificationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSpecificationChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newValue = `Yes (Please Specify): ${e.target.value}`;
     setFieldValue(field, newValue);
   };
@@ -39,7 +44,7 @@ export const CustomCheckboxInput = (props: CheckboxTypes) => {
   console.log(fieldValue);
   return (
     <div className="flex flex-col gap-4">
-      <span className="font-[500] block ">{props.label}</span>
+      <span className="font-[500] block  md:text-base text-sm">{props.label}</span>
       <div
         className={
           props.parentStyle
@@ -48,8 +53,8 @@ export const CustomCheckboxInput = (props: CheckboxTypes) => {
         }
       >
         {props.options.map((option, index) => {
-         
-            const isChecked = option === "Yes (Please Specify)" ? isAllergic : undefined;
+          const isChecked =
+            option === "Yes (Please Specify)" ? isAllergic : undefined;
           return (
             <div id="ck-button" key={index}>
               <label>
@@ -57,17 +62,20 @@ export const CustomCheckboxInput = (props: CheckboxTypes) => {
                   type={props.multiple ? "radio" : "checkbox"}
                   name={props.name}
                   value={option}
-                  className="font-light"
+                  className="font-light  md:text-xs text-[10px]"
                   checked={isChecked}
                   onChange={() => {
                     const currentValue = fieldValue; // Get the current value of the field
-                console.log(Array.isArray(currentValue))
+                    console.log(Array.isArray(currentValue));
                     // Check if it's a checkbox scenario (multiple selections allowed)
                     if (props.multiple === false) {
                       if (Array.isArray(currentValue)) {
                         if (currentValue.includes(option)) {
                           // Remove the option from the array if it's already selected
-                          setFieldValue(props.name, currentValue.filter((item) => item !== option));
+                          setFieldValue(
+                            props.name,
+                            currentValue.filter((item) => item !== option)
+                          );
                         } else {
                           // Add the option to the array if it's not selected
                           setFieldValue(props.name, [...currentValue, option]);
@@ -92,7 +100,9 @@ export const CustomCheckboxInput = (props: CheckboxTypes) => {
                   className="text-[10px]  w-full mb-3 font-light text-[#f10000]"
                 />
                 <div>
-                  <span className="whitespace-nowrap font-extralight">{option}</span>
+                  <span className="whitespace-nowrap font-extralight">
+                    {option}
+                  </span>
                 </div>
               </label>
             </div>
@@ -101,7 +111,7 @@ export const CustomCheckboxInput = (props: CheckboxTypes) => {
       </div>
       {isAllergic && (
         <input
-        value={fieldValue?.replace("Yes (Please Specify): ", "") || ""}
+          value={fieldValue?.replace("Yes (Please Specify): ", "") || ""}
           onChange={handleSpecificationChange}
           placeholder="Please specify"
           className="mt-2 py-3 px-3 text-xs md:text-sm border font-extralight rounded-3xl border-solid focus:ring-0 focus:outline-none border-gray-300"
@@ -149,7 +159,6 @@ const createCheckboxInput = (
     parentStyle={parentStyle}
   />
 );
-
 
 export const CustomSwitchInput = ({ values }: { values: string }) => {
   const personalQuestions = [

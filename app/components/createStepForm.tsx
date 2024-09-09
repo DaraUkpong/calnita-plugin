@@ -21,10 +21,10 @@ const StepForm = ( steps: ReactElement[], section: string ) => {
   } = useMultistepForm(steps);
 
   return (
-    <div className="flex flex-col pt-6 w-full items-start h-full justify-between">
-      <div className="w-full flex flex-col items-start gap-8 h-fit">
-        <div className="flex flex-col items-start w-full gap-2">
-          <div className="flex flex-row w-full items-center justify-between text-xs">
+    <div className="flex flex-col md:pt-6 pt-3 md:px-4 px-1 w-full items-start h-full justify-between">
+      <div className="w-full flex flex-col items-start md:gap-8 gap-3 h-fit">
+        <div className="flex flex-col items-start w-full md:gap-2 gap-1">
+          <div className="flex flex-row w-full items-center justify-between md:text-xs text-[10px]">
             <span>{section}</span>
             <span>{currentStepIndex + 1 + ' of ' + totalSteps.length}</span>
           </div>
@@ -44,7 +44,7 @@ const StepForm = ( steps: ReactElement[], section: string ) => {
         <button
           type="button"
           onClick={back}
-          className="p-2 bg-black w-2/5 h-full text-white rounded-3xl cursor-pointer"
+          className="p-2 bg-black w-2/5 h-full md:text-xs text-[10px] text-white rounded-3xl cursor-pointer"
         >
           Back
         </button>
@@ -60,7 +60,7 @@ const StepForm = ( steps: ReactElement[], section: string ) => {
               next();
             }
           }}
-          className="p-2 w-2/5 bg-black h-full disabled:opacity-85 text-white rounded-3xl cursor-pointer"
+          className="p-2 w-2/5 bg-black h-full md:text-xs text-[10px] disabled:opacity-85 text-white rounded-3xl cursor-pointer"
         >
           {isSubmitting ? '...' : isLastStep ? "Let's Go!" : 'Next'}
         </button>

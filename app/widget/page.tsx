@@ -333,12 +333,12 @@ const WidgetPage: React.FC = () => {
         </div>
       )}
 
-      <div className="h-[65%] md:px-4 px-2 flex flex-col items-center justify-end md:mb-6 mb-2">
+      <div className={`${!session?.user?.personalInfo ? "h-full" : "h-[65%]"}  md:px-4 px-2 flex flex-col items-center justify-end md:mb-6 mb-2`}>
         {!session?.user?.personalInfo ? (
           <OnboardingForm onSubmit={handleOnboardingSubmit} />
         ) : (
           <div className="w-full h-fit p-2 bg-[#DBB9B9]/25 rounded-3xl ">
-            <h2 className="md:text-xl text-ssm font-semibold md:py-4 md:px-4 px-4 py-2">
+            <h2 className="md:text-xl text-sm font-semibold md:py-4 md:px-4 px-4 py-2">
               Based on Your Preferrences
             </h2>
             <FilterCarousel

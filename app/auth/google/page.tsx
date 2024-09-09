@@ -13,7 +13,7 @@ import { useSearchParams } from "next/navigation";
     // If popup is blocked, try to sign in in the current window
     await signIn("google", {
       callbackUrl: `${process.env.APP_URL}/auth/callback?parentUrl=${encodeURIComponent(parentUrl!)}`,
-      redirect: false,
+      redirect: true,
     });
   };
   useEffect(() => {
