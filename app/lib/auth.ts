@@ -141,7 +141,7 @@ export const authOptions: NextAuthOptions = {
       } else {
           console.log("No user object found");
       }
-  
+  console.log(token)
       return token;
   },
     async session({ session, token }) {
