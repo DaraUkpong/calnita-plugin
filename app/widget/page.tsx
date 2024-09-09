@@ -209,7 +209,7 @@ const WidgetPage: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div className="w-full h-full flex flex-col py-8 px-4 gap-10 items-center justify-center text-black bg-transparent">
+      <div className="w-full h-full flex flex-col py-8 px-4 md:gap-10 gap-5 items-center justify-center text-black bg-transparent">
         <div className="flex flex-col w-full gap-2 ">
           <h1 className="md:text-5xl text-2xl">
             {showForm
@@ -231,7 +231,7 @@ const WidgetPage: React.FC = () => {
               </span>
               <input
                 type="email"
-                className="w-full p-3 rounded-3xl border focus:outline-none border-gray-800 focus:ring-0"
+                className="w-full md:py-2 px-3  text-sm rounded-3xl border focus:outline-none border-gray-800 focus:ring-0"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
@@ -242,7 +242,7 @@ const WidgetPage: React.FC = () => {
               <input
                 type="string"
                 placeholder="C-49583"
-                className="w-full p-3 rounded-3xl border border-gray-800 focus:ring-0"
+                className="w-full p-3 text-sm rounded-3xl border border-gray-800 focus:ring-0"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
               />
@@ -252,7 +252,7 @@ const WidgetPage: React.FC = () => {
               onClick={handleGoogleSignIn}
               className="flex flex-row items-center gap-2 text-[#344054] mt-3 tracking-wide"
             >
-              <img src="/googleIcon.svg" alt="" className="w-6 h-6" />
+              <img src="/googleIcon.svg" alt="" className="md:w-6 md:h-6 w-3 h-3" />
               <span className="text-xs">Continue with Google</span>
             </button>
            
