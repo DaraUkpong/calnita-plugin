@@ -65,29 +65,29 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      console.log("Redirect URL:", url);
-      console.log("Base URL:", baseUrl);
+    // async redirect({ url, baseUrl }) {
+    //   console.log("Redirect URL:", url);
+    //   console.log("Base URL:", baseUrl);
       
-      const urlObj = new URL(url, baseUrl);
-      const parentUrl = urlObj.searchParams.get('parentUrl');
+    //   const urlObj = new URL(url, baseUrl);
+    //   const parentUrl = urlObj.searchParams.get('parentUrl');
       
-      if (parentUrl) {
-        console.log("Parent URL found:", parentUrl);
-        // Validate the parentUrl to ensure it's safe to redirect to
-        if (parentUrl.startsWith('http://') || parentUrl.startsWith('https://')) {
-          // Append any necessary parameters or tokens to the parentUrl
-          const redirectUrl = new URL(parentUrl);
-          redirectUrl.searchParams.append('auth', 'success');
-          console.log("Redirecting to:", redirectUrl.toString());
-          return redirectUrl.toString();
-        }
-        return parentUrl ? parentUrl : baseUrl
-      }
+    //   if (parentUrl) {
+    //     console.log("Parent URL found:", parentUrl);
+    //     // Validate the parentUrl to ensure it's safe to redirect to
+    //     if (parentUrl.startsWith('http://') || parentUrl.startsWith('https://')) {
+    //       // Append any necessary parameters or tokens to the parentUrl
+    //       const redirectUrl = new URL(parentUrl);
+    //       redirectUrl.searchParams.append('auth', 'success');
+    //       console.log("Redirecting to:", redirectUrl.toString());
+    //       return redirectUrl.toString();
+    //     }
+    //     return parentUrl ? parentUrl : baseUrl
+    //   }
       
-      console.log("Redirecting to default baseUrl");
-      return parentUrl ? parentUrl : baseUrl
-    },
+    //   console.log("Redirecting to default baseUrl");
+    //   return parentUrl ? parentUrl : baseUrl
+    // },
     async jwt({ token, user, account }) {
       console.log("JWT Callback Triggered");
       
