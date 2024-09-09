@@ -28,7 +28,7 @@ import { useSearchParams } from "next/navigation";
     }
   }, [status, session, searchParams]);
 
-  return <div>Authentication...</div>;
+  return <div className="h-svh w-screen flex flex-col items-center justify-center font-bold bg-black text-white text-sm md:text-lg">Authenticating...</div>;
 }
 
 export default function AuthCallbackWrapper() {
