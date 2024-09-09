@@ -211,7 +211,7 @@ const WidgetPage: React.FC = () => {
     return (
       <div className="w-full h-full flex flex-col p-8 gap-10 justify-center text-black bg-transparent">
         <div className="flex flex-col w-full gap-2 ">
-          <h1 className="text-5xl">
+          <h1 className="md:text-5xl text-3xl">
             {showForm
               ? `📝 Get Started`
               : ` 👋Welcome to ${partnerWebsite?.name}!`}{" "}
