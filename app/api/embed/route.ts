@@ -57,7 +57,7 @@ export async function GET() {
         @media (max-width: 768px) {
           .calnita-widget-container {
             bottom: 5vh;
-            right: 10%;
+            right: 5%;
             width: 80%;
             height: 60vh;
             min-height: 50vh;

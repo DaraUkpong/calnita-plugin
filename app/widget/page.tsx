@@ -253,7 +253,7 @@ const WidgetPage: React.FC = () => {
               className="flex flex-row items-center gap-2 text-[#344054] mt-3 tracking-wide"
             >
               <img src="/googleIcon.svg" alt="" className="w-6 h-6" />
-              <span>Continue with Google</span>
+              <span className="text-xs">Continue with Google</span>
             </button>
            
           </div>
@@ -277,7 +277,7 @@ const WidgetPage: React.FC = () => {
           <button
             onClick={handleSignIn}
             disabled={submitting}
-            className="mt-4 py-3 bg-black disabled:opacity-65 text-xs text-white rounded-xl cursor-pointer"
+            className="mt-4 py-3 w-[80%] bg-black disabled:opacity-65 text-xs text-white rounded-xl cursor-pointer"
           >
             {submitting ? "..." : isOtpSent ? "Verify OTP" : "Send OTP"}
           </button>
