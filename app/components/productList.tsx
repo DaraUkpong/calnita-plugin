@@ -10,16 +10,16 @@ interface ProductListProps {
 
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full overflow-x-auto h-full">
       
       
      
       <AnimatePresence>
-        <div className="flex flex-nowrap gap-3 p-4">
+        <div className="flex flex-nowrap gap-3 md:p-4 p-2 h-full">
           {products.map((product) => (
             <motion.div
               key={product.id}
-              className="flex-shrink-0 flex flex-col items-start justify-between w-36 h-48"
+              className="flex-shrink-0 flex flex-col items-start justify-between w-16 md:w-36 h-full"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 20 }}
@@ -31,8 +31,8 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
                 className="w-full h-[70%] rounded-xl object-cover"
               />
               <div className='h-1/4'>
-                <h3 className="font-light text-xs">{product.name}</h3>
-                <p className="text-base">${product.price.toFixed(2)}</p>
+                <h3 className="font-light md:text-xs text-[10px]">{product.name}</h3>
+                <p className="md:text-base text-sm">${product.price.toFixed(2)}</p>
               </div>
             </motion.div>
           ))}

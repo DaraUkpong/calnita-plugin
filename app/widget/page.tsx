@@ -316,9 +316,9 @@ const WidgetPage: React.FC = () => {
       transition={{ duration: 0.5 }}
     >
       {session?.user?.personalInfo && (
-        <div className="flex flex-row w-full gap-2 px-4 py-6 items-center">
+        <div className="flex flex-row w-full gap-2 md:px-4 px-2 h-[20%] md:py-6 py-2 items-center">
           <div className="w-fit">
-            <h1 className="text-3xl w-fit font-semibold text-[#222222]">
+            <h1 className="md:text-3xl text-base w-fit font-semibold text-[#222222]">
               🎉  Your Personalized Recomendations
             </h1>
           </div>
@@ -327,18 +327,18 @@ const WidgetPage: React.FC = () => {
             <img
               src="https://res.cloudinary.com/df8kki6aw/image/upload/v1716378923/calnita/products/664dcfcf00a84d9a09e0810a/coverPhoto.jpg"
               alt=""
-              className="h-16 rounded-full w-16 object-cover bg-gray-200"
+              className="md:h-16 w-8 h-8 rounded-full md:w-16 object-cover bg-gray-200"
             />
           </div>
         </div>
       )}
 
-      <div className="h-fit px-4 flex flex-col items-center justify-end mb-6">
+      <div className="h-[65%] md:px-4 px-2 flex flex-col items-center justify-end md:mb-6 mb-2">
         {!session?.user?.personalInfo ? (
           <OnboardingForm onSubmit={handleOnboardingSubmit} />
         ) : (
           <div className="w-full h-fit p-2 bg-[#DBB9B9]/25 rounded-3xl ">
-            <h2 className="md:text-xl text-base font-semibold p-4">
+            <h2 className="md:text-xl text-ssm font-semibold md:py-4 md:px-4 px-4 py-2">
               Based on Your Preferrences
             </h2>
             <FilterCarousel
@@ -351,30 +351,30 @@ const WidgetPage: React.FC = () => {
         )}
       </div>
       {!session?.user?.personalInfo ? null : (
-        <div className="flex flex-row h-[10%] justify-between px-4 my-3 w-full gap-2 bg-[#A3A3A3]/">
-          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black">
-            <img src="/foryou.png" className="" alt="" />
+        <div className="flex flex-row h-[15%] justify-between px-4 md:my-3 my-1 w-full gap-2 bg-[#A3A3A3]/">
+          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group active:bg-black hover:bg-black">
+            <img src="/foryou.png" className="md:w-auto w-5 " alt="" />
             <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               For You
             </p>
           </button>
-          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black">
-            <img src="/routine.png" alt="" />
+          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group active:bg-black hover:bg-black">
+            <img src="/routine.png" className="md:w-auto w-5 " alt="" />
             <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               Routine
             </p>
           </button>
-          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black">
-            <img src="/share.png" alt="" />
+          <button className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group active:bg-black hover:bg-black">
+            <img src="/share.png" className="md:w-auto w-5 " alt="" />
             <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               Share
             </p>
           </button>
           <button
             onClick={() => signOut()}
-            className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group hover:bg-black"
+            className="flex-1 transition-all duration-200 rounded-3xl px-2 gap-1 overflow-hidden flex flex-row items-center justify-start group active:bg-black hover:bg-black"
           >
-            <img src="/aichat.png" alt="" />
+            <img src="/aichat.png" className="md:w-auto w-5 " alt="" />
             <p className="text-[10px] text-center text-black group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
               LogOut
             </p>

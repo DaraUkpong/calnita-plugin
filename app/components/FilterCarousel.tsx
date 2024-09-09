@@ -12,12 +12,12 @@ const FilterCarousel: React.FC<FilterCarouselProps> = ({
   onToggleFilter,
 }) => {
   return (
-    <div className="flex overflow-x-auto space-x-4 px-4">
+    <div className="flex overflow-x-auto space-x-4 md:px-4 px-2">
       {filters.map((filter) => (
         <button
           key={filter}
           onClick={() => onToggleFilter(filter)}
-          className={`px-4 py-2 tracking-wide font-extralight md:text-sm text-xs whitespace-nowrap rounded-3xl  ${
+          className={`md:px-4 md:py-2 px-2 py-0.5 tracking-wide font-extralight md:text-sm text-xs whitespace-nowrap rounded-3xl  ${
             selectedFilters.includes(filter)
               ? "bg-[#F92A63] text-white"
               : "bg-gray-200 text-black"
