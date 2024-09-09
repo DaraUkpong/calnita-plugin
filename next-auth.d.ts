@@ -91,6 +91,7 @@ declare module "next-auth" {
         ingredientsToAvoid?: string[];
       };
     };
+    
     accessToken: string;
     refreshToken: string;
     idToken:string
@@ -141,6 +142,9 @@ declare module "next-auth/jwt" {
         ingredientsToAvoid?: string[];
       };
     };
+    name: string;
+    picture: string;
+    sub: string;
     accessToken: string;
     refreshToken: string;
     idToken:string

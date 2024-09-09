@@ -44,6 +44,7 @@ export const authOptions: NextAuthOptions = {
             const user = response.userEmailAuth.user;
             console.log(user);
             return {
+
               id: user.id,
               email: user.email,
               personalInfo: user.personalInfo,
@@ -64,17 +65,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`, // Use a secure cookie name
-      options: {
-        httpOnly: true, // Prevent JavaScript access to the cookie
-        secure: process.env.NODE_ENV === "production", // Set to true in production
-        sameSite: "None", // Allow cross-origin requests
-        path: "/", // Cookie path
-      },
-    },
-  },
+
   callbacks: {
     // async redirect({ url, baseUrl }) {
     //   console.log("Redirect URL:", url);
@@ -123,7 +114,7 @@ export const authOptions: NextAuthOptions = {
               return obj ? Object.values(obj).every((value) => value !== null) : false;
           };
   
-          // Set fields only if none of their values are null
+          // // Set fields only if none of their values are null
           const filteredUser = {
               id: user.id,
               email: user.email,
@@ -135,11 +126,9 @@ export const authOptions: NextAuthOptions = {
               productPreferences: areAllFieldsNonNull(user.productPreferences) ? user.productPreferences : undefined,
           };
   
-          console.log("Filtered User Object:", filteredUser);
+          // console.log("Filtered User Object:", filteredUser);
           token.user = filteredUser;
           console.log('JWT token size:', getObjectSize(token), 'bytes');
-      } else {
-          console.log("No user object found");
       }
   console.log(token)
       return token;
