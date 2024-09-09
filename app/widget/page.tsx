@@ -231,7 +231,7 @@ const WidgetPage: React.FC = () => {
               </span>
               <input
                 type="email"
-                className="w-full md:py-2 px-3  text-sm rounded-3xl border focus:outline-none border-gray-800 focus:ring-0"
+                className="w-full md:py-3 py-2 px-3 font-light md:text-sm text-xs text-[#344054] rounded-3xl border focus:outline-none border-gray-800 focus:ring-0"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
@@ -242,7 +242,7 @@ const WidgetPage: React.FC = () => {
               <input
                 type="string"
                 placeholder="C-49583"
-                className="w-full p-3 text-sm rounded-3xl border border-gray-800 focus:ring-0"
+                className="w-full md:py-3 py-2 px-3 font-light md:text-sm text-xs text-[#344054] rounded-3xl border border-gray-800 focus:ring-0"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
               />
