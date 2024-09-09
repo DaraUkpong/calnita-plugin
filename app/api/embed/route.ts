@@ -34,6 +34,7 @@ export async function GET() {
           max-width: 450px;
           height: 80vh;
           max-height: 600px;
+          min-height: 400px;
           padding: 2px;
           border-radius: 20px;
           background: linear-gradient(90deg,  #f92a63, #000, #000);
@@ -55,15 +56,12 @@ export async function GET() {
         }
         @media (max-width: 768px) {
           .calnita-widget-container {
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            max-height: none;
-            border-radius: 0;
-          }
-          .calnita-widget-iframe {
-            border-radius: 0;
+            bottom: 5vh;
+            right: 10%;
+            width: 80%;
+            height: 70vh;
+            min-height: 50vh;
+            max-height: 80vh;
           }
           .calnita-widget-button {
             bottom: 10px;
@@ -111,27 +109,6 @@ export async function GET() {
           } else {
             console.log('Google sign-in was unsuccessful');
           }
-        }
-      });
-
-      // Adjust widget size on window resize
-      window.addEventListener('resize', function() {
-        if (window.innerWidth <= 768) {
-          container.style.width = '100%';
-          container.style.height = '100%';
-          container.style.bottom = '0';
-          container.style.right = '0';
-          container.style.borderRadius = '0';
-          iframe.style.borderRadius = '0';
-        } else {
-          container.style.width = '90%';
-          container.style.height = '80vh';
-          container.style.maxWidth = '450px';
-          container.style.maxHeight = '600px';
-          container.style.bottom = '3rem';
-          container.style.right = '2rem';
-          container.style.borderRadius = '20px';
-          iframe.style.borderRadius = '20px';
         }
       });
     })();
