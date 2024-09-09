@@ -209,7 +209,7 @@ const WidgetPage: React.FC = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div className="w-full h-full flex flex-col p-8 gap-10 justify-center text-black bg-transparent">
+      <div className="w-full h-full flex flex-col py-8 px-4 gap-10 justify-center text-black bg-transparent">
         <div className="flex flex-col w-full gap-2 ">
           <h1 className="md:text-5xl text-3xl">
             {showForm
@@ -271,7 +271,7 @@ const WidgetPage: React.FC = () => {
             disabled={submitting}
             className="mt-4 p-5 bg-black disabled:opacity-65 text-white rounded-3xl cursor-pointer"
           >
-           {submitting ? "..." : "Let's go!"} Let&apos; go!
+           {submitting ? "..." : "Let's go!"}
           </button>
         ) : (
           <button
