@@ -4,6 +4,7 @@ import EmailProvider from "next-auth/providers/email";
 import Credentials from "next-auth/providers/credentials";
 import { AUTHENTICATE_OTP_MUTATION } from "./mutations";
 import { graphqlClient } from "@/utils/graphql-client";
+import { getObjectSize } from "@/utils/getObjectByteSize";
 export const authOptions: NextAuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
   secret: process.env.NEXTAUTH_SECRET,
@@ -87,38 +88,51 @@ export const authOptions: NextAuthOptions = {
       console.log("Redirecting to default baseUrl");
       return parentUrl ? parentUrl : baseUrl
     },
-    async  jwt({ token, user, account }) {
-      if (account && account.provider === "google") {
-        token.accessToken = account.access_token!;
-        token.idToken = account.id_token!;
+    async jwt({ token, user, account }) {
+      console.log("JWT Callback Triggered");
+      
+      if (account) {
+          console.log("Account Object:", account);
+          if (account.provider === "google") {
+              token.accessToken = account.access_token!;
+              token.idToken = account.id_token!;
+              console.log("Google Access Token and ID Token set");
+          }
+      } else {
+          console.log("No account object found");
       }
-    
+  
       if (user) {
-        token.accessToken = token.accessToken || user.accessToken;
-        token.refreshToken = user.refreshToken;
-    
-        // Utility function to check if none of the values in an object are null
-        const areAllFieldsNonNull = <T>(obj?: T): obj is T => {
-          return obj ? Object.values(obj).every((value) => value !== null) : false;
-        };
-    
-        // Set fields only if none of their values are null
-        const filteredUser = {
-          id: user.id,
-          email: user.email,
-          personalInfo: areAllFieldsNonNull(user.personalInfo) ? user.personalInfo : undefined,
-          skinCare: areAllFieldsNonNull(user.skinCare) ? user.skinCare : undefined,
-          fragrance: areAllFieldsNonNull(user.fragrance) ? user.fragrance : undefined,
-          makeup: areAllFieldsNonNull(user.makeup) ? user.makeup : undefined,
-          hairCare: areAllFieldsNonNull(user.hairCare) ? user.hairCare : undefined,
-          productPreferences: areAllFieldsNonNull(user.productPreferences) ? user.productPreferences : undefined,
-        };
-    
-        token.user = filteredUser;
+          console.log("User Object:", user);
+          token.accessToken = token.accessToken || user.accessToken;
+          token.refreshToken = user.refreshToken;
+  
+          // Utility function to check if none of the values in an object are null
+          const areAllFieldsNonNull = <T>(obj?: T): obj is T => {
+              return obj ? Object.values(obj).every((value) => value !== null) : false;
+          };
+  
+          // Set fields only if none of their values are null
+          const filteredUser = {
+              id: user.id,
+              email: user.email,
+              personalInfo: areAllFieldsNonNull(user.personalInfo) ? user.personalInfo : undefined,
+              skinCare: areAllFieldsNonNull(user.skinCare) ? user.skinCare : undefined,
+              fragrance: areAllFieldsNonNull(user.fragrance) ? user.fragrance : undefined,
+              makeup: areAllFieldsNonNull(user.makeup) ? user.makeup : undefined,
+              hairCare: areAllFieldsNonNull(user.hairCare) ? user.hairCare : undefined,
+              productPreferences: areAllFieldsNonNull(user.productPreferences) ? user.productPreferences : undefined,
+          };
+  
+          console.log("Filtered User Object:", filteredUser);
+          token.user = filteredUser;
+          console.log('JWT token size:', getObjectSize(token), 'bytes');
+      } else {
+          console.log("No user object found");
       }
-    
+  
       return token;
-    },
+  },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.idToken = token.idToken;
@@ -133,7 +147,9 @@ export const authOptions: NextAuthOptions = {
         hairCare: token.user.hairCare,
         productPreferences: token.user.productPreferences,
       };
-      console.log("Session", session);
+      // console.log("Session", session);
+      console.log('Session size:', getObjectSize(session), 'bytes');
+      console.log('Session token size:', getObjectSize(token), 'bytes');
       return session;
     },
   },

@@ -9,6 +9,7 @@ import { gql } from "graphql-request";
 import { UserProfile, Product, PartnerWebsite } from "../types";
 import { useRouter, useSearchParams } from "next/navigation";
 import { graphqlClient } from "@/utils/graphql-client";
+import FilterCarousel from '../components/FilterCarousel';
 import OnboardingForm from "../components/onboardingForm";
 import ProductList from "../components/productList";
 import { generateMockRecommendations, getUniqueFilters } from "@/utils/mockdata";
@@ -26,8 +27,6 @@ const GET_RECOMMENDATIONS = gql`
     }
   }
 `;
-
-import FilterCarousel from '../components/FilterCarousel';
 const WidgetPage: React.FC = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -153,28 +152,47 @@ const WidgetPage: React.FC = () => {
 
   const handleSignIn = async () => {
     try {
-      setSubmitting(true)
+      setSubmitting(true); // Start submission
+  
       if (showForm && !isOtpSent) {
-        fetch(`/api/auth/request-otp`, {
+        // Request OTP if form is shown and OTP is not yet sent
+        const response = await fetch(`/api/auth/request-otp`, {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ email: email }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            setIsOtpSent(true)
-          setSubmitting(false) });
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to request OTP");
+        }
+  
+        const data = await response.json();
+        setIsOtpSent(true);
+        setSubmitting(false); // End submission
       } else {
+        // Handle the sign-in process with the OTP
         const result = await signIn("email-otp", {
           email,
           otp,
-          redirect: false,
+          redirect: false, // Ensure redirect is handled correctly
         });
+  
+        if (result?.error) {
+          throw new Error(result.error);
+        }
+  
+        // Handle post-sign-in actions (e.g., close modal, redirect)
+        setSubmitting(false); // End submission
       }
-    } catch (err) {
-      setError("An error occurred");
-      setSubmitting(false) 
+    } catch (err: any) {
+      // Handle errors
+      setError(err.message || "An error occurred");
+      setSubmitting(false); // Ensure submission state is reset on error
     }
   };
+  
   const handleGoogleSignIn = async () => {
     const parentUrl = encodeURIComponent(partnerWebsite?.url || "");
 
