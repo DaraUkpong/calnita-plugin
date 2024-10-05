@@ -1,8 +1,7 @@
 (function () {
-  // Create the launcher image element
   var launcherImage = document.createElement("img");
   launcherImage.id = "widget-launcher";
-  launcherImage.src = "http://localhost:3000/widget-icon.png"; // Adjust the icon URL as needed
+  launcherImage.src = "http://localhost:3000/widget-icon.png";
   launcherImage.alt = "Open Widget";
   launcherImage.style.position = "fixed";
   launcherImage.style.bottom = "20px";
@@ -10,48 +9,48 @@
   launcherImage.style.width = "50px";
   launcherImage.style.height = "50px";
   launcherImage.style.cursor = "pointer";
-  launcherImage.style.zIndex = "10000"; // Set launcher image z-index higher
+  launcherImage.style.zIndex = "10000";
   launcherImage.style.filter = "drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.2))";
-  launcherImage.style.transition = "transform 0.3s ease";
+  launcherImage.style.transition = "opacity 0.4s ease, transform 0.3s ease";
   launcherImage.style.objectFit = "contain";
   launcherImage.style.overflow = "hidden";
+  launcherImage.style.opacity = "1"; // Default opacity is set to 1
 
-  // Create a wrapper div for the gradient border
   var wrapperDiv = document.createElement("div");
   wrapperDiv.style.position = "fixed";
   wrapperDiv.style.bottom = "20px";
   wrapperDiv.style.right = "20px";
-  wrapperDiv.style.width = "457px"; // Width adjusted to accommodate the border
-  wrapperDiv.style.height = "643px"; // Height adjusted to accommodate the border
-  wrapperDiv.style.display = "none"; // Initially hidden
-  wrapperDiv.style.zIndex = "9999"; // Ensure wrapper div z-index is lower
+  wrapperDiv.style.width = "457px";
+  wrapperDiv.style.height = "643px";
+  wrapperDiv.style.display = "none";
+  wrapperDiv.style.zIndex = "9999";
   wrapperDiv.style.background =
-    "linear-gradient(153.56deg, #F91163 -14.71%, #000000 48.28%, #984965 61.64%, #FFFFFF 97.07%)"; // Gradient background
-  wrapperDiv.style.borderRadius = "20px"; // Rounded corners for visual effect
-  wrapperDiv.style.boxSizing = "border-box"; // Include padding in width/height
-  wrapperDiv.style.padding = "2px"; // Padding for border effect
-  wrapperDiv.style.transformOrigin = "bottom right"; // Origin for scaling
-  wrapperDiv.style.transform = "scale(0)"; // Initial scale for animation
-  wrapperDiv.style.transition = "transform 0.4s ease, opacity 0.4s ease"; // Transition effects
-  wrapperDiv.style.opacity = "0"; // Start hidden
+    "linear-gradient(153.56deg, #F91163 -14.71%, #000000 48.28%, #984965 61.64%, #FFFFFF 97.07%)";
+  wrapperDiv.style.borderRadius = "20px";
+  wrapperDiv.style.boxSizing = "border-box";
+  wrapperDiv.style.padding = "2px";
+  wrapperDiv.style.transformOrigin = "bottom right";
+  wrapperDiv.style.transform = "scale(0)";
+  wrapperDiv.style.transition = "transform 0.4s ease, opacity 0.4s ease";
+  wrapperDiv.style.opacity = "0";
 
-  // Create the second launcher image for the bottom right of the iframe
   var launcherImageInIframe = document.createElement("img");
   launcherImageInIframe.id = "widget-launcher-iframe";
-  launcherImageInIframe.src = "http://localhost:3000/widget-icon.png"; // Same icon URL
+  launcherImageInIframe.src = "http://localhost:3000/widget-icon.png";
   launcherImageInIframe.alt = "Close Widget";
   launcherImageInIframe.style.position = "absolute";
-  launcherImageInIframe.style.bottom = "10px"; // Distance from the bottom
-  launcherImageInIframe.style.right = "10px"; // Distance from the right
-  launcherImageInIframe.style.width = "50px"; // Width
-  launcherImageInIframe.style.height = "50px"; // Height
-  launcherImageInIframe.style.cursor = "pointer"; // Pointer cursor
+  launcherImageInIframe.style.bottom = "10px";
+  launcherImageInIframe.style.right = "10px";
+  launcherImageInIframe.style.width = "50px";
+  launcherImageInIframe.style.height = "50px";
+  launcherImageInIframe.style.cursor = "pointer";
   launcherImageInIframe.style.filter =
     "drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.2))";
-  launcherImageInIframe.style.transition = "transform 0.3s ease";
+  launcherImageInIframe.style.transition =
+    "opacity 0.4s ease, transform 0.3s ease";
   launcherImageInIframe.style.objectFit = "contain";
+  launcherImageInIframe.style.opacity = "0"; // Initially hidden
 
-  // Add event listener to close the iframe when clicked
   launcherImageInIframe.addEventListener("click", function () {
     window.dispatchEvent(
       new MessageEvent("message", {
@@ -60,73 +59,73 @@
     );
   });
 
-  // Append the second launcher image to the wrapper div
   wrapperDiv.appendChild(launcherImageInIframe);
 
-  // Create the iframe
   var iframe = document.createElement("iframe");
-  iframe.src = "http://localhost:3000"; // Your Next.js app URL
-  iframe.style.width = "100%"; // Width of iframe
-  iframe.style.height = "100%"; // Height of iframe
-  iframe.style.border = "none"; // Remove default border
-  iframe.style.borderTopLeftRadius = "20px"; // Rounded top left corner
-  iframe.style.borderTopRightRadius = "20px"; // Rounded top right corner
-  iframe.style.borderBottomLeftRadius = "20px"; // Rounded bottom left corner
-  iframe.style.borderBottomRightRadius = "0px"; // Sharp bottom right corner
-  iframe.style.boxShadow = "0px 0px 15px rgba(0,0,0,0.2)"; // Box shadow for the iframe
-  iframe.style.background = "#FAF6F6"; // Solid color for the iframe
+  iframe.src = "http://localhost:3000";
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  iframe.style.border = "none";
+  iframe.style.borderTopLeftRadius = "20px";
+  iframe.style.borderTopRightRadius = "20px";
+  iframe.style.borderBottomLeftRadius = "20px";
+  iframe.style.borderBottomRightRadius = "0px";
+  iframe.style.boxShadow = "0px 0px 15px rgba(0,0,0,0.2)";
+  iframe.style.background = "#FAF6F6";
 
-  // Append the iframe to the wrapper div
   wrapperDiv.appendChild(iframe);
   document.body.appendChild(launcherImage);
   document.body.appendChild(wrapperDiv);
 
-  // Responsive adjustments for the wrapper dimensions
   function updateIframeDimensions() {
     if (window.innerWidth < 768) {
-      wrapperDiv.style.width = "90%"; // Mobile width
-      wrapperDiv.style.height = "80%"; // Mobile height
-      iframe.style.width = "100%"; // Make iframe fill wrapper width
-      iframe.style.height = "100%"; // Make iframe fill wrapper height
-      launcherImageInIframe.style.width = "40px"; // Smaller size for mobile
-      launcherImageInIframe.style.height = "40px"; // Smaller size for mobile
+      wrapperDiv.style.width = "90%";
+      wrapperDiv.style.height = "80%";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      launcherImageInIframe.style.width = "40px";
+      launcherImageInIframe.style.height = "40px";
     } else {
-      wrapperDiv.style.width = "457px"; // Reset to original width
-      wrapperDiv.style.height = "643px"; // Reset to original height
-      iframe.style.width = "100%"; // Reset to original iframe width
-      iframe.style.height = "100%"; // Reset to original iframe height
-      launcherImageInIframe.style.width = "50px"; // Reset size for desktop
-      launcherImageInIframe.style.height = "50px"; // Reset size for desktop
+      wrapperDiv.style.width = "457px";
+      wrapperDiv.style.height = "643px";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      launcherImageInIframe.style.width = "50px";
+      launcherImageInIframe.style.height = "50px";
     }
   }
 
-  // Call the function initially and on window resize
   updateIframeDimensions();
   window.addEventListener("resize", updateIframeDimensions);
 
-  // Show the wrapper and iframe on launcher image click
   launcherImage.addEventListener("click", function () {
+    launcherImage.style.opacity = "0"; // Fade out effect
+    setTimeout(() => {
+      launcherImage.style.display = "none"; // Hide launcher after fade-out
+    }, 400); // Wait for opacity transition to complete (400ms)
+
+    // Show and animate the wrapper div
     wrapperDiv.style.display = "block"; // Show the wrapper
     setTimeout(() => {
-      wrapperDiv.style.transform = "scale(1)"; // Scale to full size
+      wrapperDiv.style.transform = "scale(1)";
       wrapperDiv.style.opacity = "1"; // Fade in
+      launcherImageInIframe.style.opacity = "1"; // Fade in the second image smoothly
     }, 10);
-    launcherImage.style.display = "none"; // Hide launcher image
   });
 
-  // Close the iframe on receiving the `WIDGET_CLOSE` message
   window.addEventListener("message", (event) => {
     if (event.data && event.data.type === "WIDGET_CLOSE") {
-      wrapperDiv.style.transform = "scale(0)"; // Scale down
-      wrapperDiv.style.opacity = "0"; // Fade out
+      wrapperDiv.style.transform = "scale(0)";
+      wrapperDiv.style.opacity = "0";
+      launcherImageInIframe.style.opacity = "0"; // Fade out the second image
       setTimeout(() => {
-        wrapperDiv.style.display = "none"; // Hide the wrapper
-        launcherImage.style.display = "block"; // Show launcher image
+        wrapperDiv.style.display = "none";
+        launcherImage.style.display = "block";
+        launcherImage.style.opacity = "1"; // Reset launcher image opacity
       }, 400);
     }
   });
 
-  // Optional hover effect for the launcher image
   launcherImage.addEventListener("mouseenter", () => {
     launcherImage.style.transform = "scale(1.1)";
   });
