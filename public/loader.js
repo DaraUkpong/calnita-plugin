@@ -1,8 +1,8 @@
 (function () {
-  // Create the launcher image element (unchanged from previous version)
+  // Create the launcher image element
   var launcherImage = document.createElement("img");
   launcherImage.id = "widget-launcher";
-  launcherImage.src = "http://localhost:3000/widget-icon.png";
+  launcherImage.src = "http://localhost:3000/widget-icon.png"; // Adjust the icon URL as needed
   launcherImage.alt = "Open Widget";
   launcherImage.style.position = "fixed";
   launcherImage.style.bottom = "20px";
@@ -15,66 +15,70 @@
   launcherImage.style.transition = "transform 0.3s ease";
   launcherImage.style.objectFit = "contain";
   launcherImage.style.overflow = "hidden";
-  // Create the iframe with modified corner styles
+  // Create a wrapper div for the gradient border
+  var wrapperDiv = document.createElement("div");
+  wrapperDiv.style.position = "fixed";
+  wrapperDiv.style.bottom = "20px";
+  wrapperDiv.style.right = "20px";
+  wrapperDiv.style.width = "344px"; // Width adjusted to accommodate the border (340px + 2px on each side)
+  wrapperDiv.style.height = "404px"; // Height adjusted to accommodate the border (400px + 2px on each side)
+  wrapperDiv.style.display = "none"; // Initially hidden
+  wrapperDiv.style.zIndex = "9999";
+  wrapperDiv.style.background =
+    "linear-gradient(153.56deg, #F91163 -14.71%, #000000 48.28%, #984965 61.64%, #FFFFFF 97.07%)"; // Gradient background
+  wrapperDiv.style.borderRadius = "12px"; // Rounded corners for visual effect
+  wrapperDiv.style.boxSizing = "border-box"; // Include padding in width/height
+  wrapperDiv.style.padding = "2px"; // Padding for border effect
+  wrapperDiv.style.transformOrigin = "bottom right"; // Origin for scaling
+  wrapperDiv.style.transform = "scale(0)"; // Initial scale for animation
+  wrapperDiv.style.transition = "transform 0.4s ease, opacity 0.4s ease"; // Transition effects
+  wrapperDiv.style.opacity = "0"; // Start hidden
+  // Create the iframe
   var iframe = document.createElement("iframe");
   iframe.src = "http://localhost:3000"; // Your Next.js app URL
-  iframe.style.position = "fixed";
-  iframe.style.bottom = "20px";
-  iframe.style.right = "20px";
-  iframe.style.width = "340px";
-  iframe.style.height = "400px";
-  iframe.style.border = "none";
-  iframe.style.zIndex = "9999";
-  iframe.style.display = "none";
-  iframe.style.boxShadow = "0px 0px 15px rgba(0,0,0,0.2)";
-  iframe.style.transformOrigin = "bottom right";
-  iframe.style.transform = "scale(0)";
-  iframe.style.opacity = "0";
-  iframe.style.transition = "transform 0.4s ease, opacity 0.4s ease";
-
-  // Define the specific corner radius for each corner
-  iframe.style.borderTopLeftRadius = "10px"; // Rounded top-left
-  iframe.style.borderTopRightRadius = "10px"; // Rounded top-right
-  iframe.style.borderBottomLeftRadius = "10px"; // Rounded bottom-left
-  iframe.style.borderBottomRightRadius = "0px"; // No rounding for bottom-right
-  // Append elements to the document body
+  iframe.style.width = "340px"; // Width of iframe
+  iframe.style.height = "400px"; // Height of iframe
+  iframe.style.border = "none"; // Remove default border
+  iframe.style.borderTopLeftRadius = "10px"; // Rounded top left corner
+  iframe.style.borderTopRightRadius = "10px"; // Rounded top right corner
+  iframe.style.borderBottomLeftRadius = "10px"; // Rounded bottom left corner
+  iframe.style.borderBottomRightRadius = "0px"; // Sharp bottom right corner
+  iframe.style.boxShadow = "0px 0px 15px rgba(0,0,0,0.2)"; // Box shadow for the iframe
+  iframe.style.background = "#FAF6F6"; // Solid color for the iframe
+  // Append the iframe to the wrapper div
+  wrapperDiv.appendChild(iframe);
   document.body.appendChild(launcherImage);
-  document.body.appendChild(iframe);
-  // Responsive iframe dimension function (unchanged)
+  document.body.appendChild(wrapperDiv);
+  // Responsive adjustments for the wrapper dimensions
   function updateIframeDimensions() {
     if (window.innerWidth < 768) {
-      iframe.style.width = "90%";
-      iframe.style.height = "80%";
-      iframe.style.bottom = "20px";
-      iframe.style.right = "20px";
-      //iframe.style.left = "0px";
+      wrapperDiv.style.width = "90%"; // Mobile width
+      wrapperDiv.style.height = "80%"; // Mobile height
     } else {
-      iframe.style.width = "340px";
-      iframe.style.height = "400px";
-      iframe.style.bottom = "20px";
-      iframe.style.right = "20px";
+      wrapperDiv.style.width = "344px"; // Reset to original width
+      wrapperDiv.style.height = "404px"; // Reset to original height
     }
   }
   // Call the function initially and on window resize
   updateIframeDimensions();
   window.addEventListener("resize", updateIframeDimensions);
-  // Show the iframe when the launcher image is clicked
+  // Show the wrapper and iframe on launcher image click
   launcherImage.addEventListener("click", function () {
-    iframe.style.display = "block";
+    wrapperDiv.style.display = "block"; // Show the wrapper
     setTimeout(() => {
-      iframe.style.transform = "scale(1)";
-      iframe.style.opacity = "1";
+      wrapperDiv.style.transform = "scale(1)"; // Scale to full size
+      wrapperDiv.style.opacity = "1"; // Fade in
     }, 10);
-    launcherImage.style.display = "none";
+    launcherImage.style.display = "none"; // Hide launcher image
   });
-  // Close the iframe and show the launcher when receiving the `WIDGET_CLOSE` message
+  // Close the iframe on receiving the `WIDGET_CLOSE` message
   window.addEventListener("message", (event) => {
     if (event.data && event.data.type === "WIDGET_CLOSE") {
-      iframe.style.transform = "scale(0)";
-      iframe.style.opacity = "0";
+      wrapperDiv.style.transform = "scale(0)"; // Scale down
+      wrapperDiv.style.opacity = "0"; // Fade out
       setTimeout(() => {
-        iframe.style.display = "none";
-        launcherImage.style.display = "block";
+        wrapperDiv.style.display = "none"; // Hide the wrapper
+        launcherImage.style.display = "block"; // Show launcher image
       }, 400);
     }
   });
