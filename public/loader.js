@@ -33,6 +33,28 @@
   wrapperDiv.style.transform = "scale(0)"; // Initial scale for animation
   wrapperDiv.style.transition = "transform 0.4s ease, opacity 0.4s ease"; // Transition effects
   wrapperDiv.style.opacity = "0"; // Start hidden
+  // Create the close button
+  var closeButton = document.createElement("button");
+  closeButton.innerHTML = "✖"; // Close icon
+  closeButton.style.position = "absolute";
+  closeButton.style.top = "10px"; // Distance from the top
+  closeButton.style.left = "10px"; // Distance from the left
+  closeButton.style.background = "transparent"; // Transparent background
+  closeButton.style.border = "none"; // No border
+  closeButton.style.color = "#FFF"; // White color (change as needed)
+  closeButton.style.fontSize = "20px"; // Font size
+  closeButton.style.cursor = "pointer"; // Pointer cursor
+  closeButton.style.zIndex = "10000"; // Higher than the wrapper
+  // Add event listener to close the iframe when clicked
+  closeButton.addEventListener("click", function () {
+    window.dispatchEvent(
+      new MessageEvent("message", {
+        data: { type: "WIDGET_CLOSE" },
+      })
+    );
+  });
+  // Append the close button to the wrapper div
+  wrapperDiv.appendChild(closeButton);
   // Create the iframe
   var iframe = document.createElement("iframe");
   iframe.src = "http://localhost:3000"; // Your Next.js app URL
