@@ -76,9 +76,13 @@
     if (window.innerWidth < 768) {
       wrapperDiv.style.width = "90%"; // Mobile width
       wrapperDiv.style.height = "80%"; // Mobile height
+      iframe.style.width = "100%"; // Make iframe fill wrapper width
+      iframe.style.height = "100%"; // Make iframe fill wrapper height
     } else {
       wrapperDiv.style.width = "344px"; // Reset to original width
       wrapperDiv.style.height = "404px"; // Reset to original height
+      iframe.style.width = "340px"; // Reset to original iframe width
+      iframe.style.height = "400px"; // Reset to original iframe height
     }
   }
   // Call the function initially and on window resize
