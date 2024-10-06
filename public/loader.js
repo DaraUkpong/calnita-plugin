@@ -33,6 +33,7 @@
   wrapperDiv.style.transform = "scale(0)";
   wrapperDiv.style.transition = "transform 0.4s ease, opacity 0.4s ease";
   wrapperDiv.style.opacity = "0";
+  wrapperDiv.style.boxShadow = "0 0px 50px rgba(255, 200, 200, 0.65)"; //uncomment for the daramfon's effect
 
   var launcherImageInIframe = document.createElement("img");
   launcherImageInIframe.id = "widget-launcher-iframe";
@@ -63,6 +64,7 @@
 
   var iframe = document.createElement("iframe");
   iframe.src = "http://localhost:3000";
+  iframe.title = "Calnta Beauty Assistant Widget";
   iframe.style.width = "100%";
   iframe.style.height = "100%";
   iframe.style.border = "none";
@@ -70,8 +72,9 @@
   iframe.style.borderTopRightRadius = "20px";
   iframe.style.borderBottomLeftRadius = "20px";
   iframe.style.borderBottomRightRadius = "0px";
-  iframe.style.boxShadow = "0px 0px 15px rgba(0,0,0,0.2)";
+  //iframe.style.boxShadow = "0px 0px 15px rgba(0,0,0,0.2)"; //no need for this if and only if daramfon's effect is active(reason:redundant)...or move the box shadowing to the wrapper
   iframe.style.background = "#FAF6F6";
+  iframe.style.overflow = "hidden";
 
   wrapperDiv.appendChild(iframe);
   document.body.appendChild(launcherImage);
