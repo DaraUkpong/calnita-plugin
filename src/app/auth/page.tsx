@@ -36,7 +36,7 @@ const AuthPage: React.FC = () => {
       console.log("Email:", email, "OTP:", otp);
       await otpSignIn(email, otp);
       console.log("OTP sign-in successful, navigating to onboarding...");
-      router.replace("/onboarding");
+      router.replace("/recommendations");
     } catch (error) {
       console.error("Sign-in error:", error);
       throw error;
