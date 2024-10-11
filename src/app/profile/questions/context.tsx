@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { Category, Question, questionsByCategory } from "./questionsByCategory";
 import ProgressBar from "@/components/ProgressBar";
+import { Question0 } from "./components";
 
 type QuestionnaireContextType = {
   currentQuestionIndex: number;
@@ -51,7 +52,12 @@ export function QuestionnaireProvider({
       uniqueQuestionsMap.set(question.id, question);
     });
 
-    return Array.from(uniqueQuestionsMap.values());
+    //return Array.from(uniqueQuestionsMap.values());
+    // Add Question0 as the first item in the array
+    return [
+      { component: Question0 },
+      ...Array.from(uniqueQuestionsMap.values()),
+    ];
   }, [selectedCategories]);
 
   // Navigation functions
@@ -121,18 +127,21 @@ export function QuestionnaireFlow() {
 
   return (
     <div>
-      <div className="text-[12px] text-[#222222] flex justify-between mt-[50px]">
-        <span>
-          {Array.isArray(selectedCategories)
-            ? selectedCategories.join(", ")
-            : selectedCategories}
-        </span>
-        <span>
-          {currentQuestionIndex + 1} of {totalQuestions}
-        </span>
-      </div>
-
-      <ProgressBar progress={progress} />
+      {currentQuestionIndex > 0 && (
+        <>
+          <div className="text-[12px] text-[#222222] flex justify-between mt-[50px]">
+            <span>
+              {Array.isArray(selectedCategories)
+                ? selectedCategories.join(", ")
+                : selectedCategories}
+            </span>
+            <span>
+              {currentQuestionIndex} of {totalQuestions - 1}
+            </span>
+          </div>
+          <ProgressBar progress={progress} />
+        </>
+      )}
 
       {/* Dynamically render the current question */}
       <CurrentQuestionComponent answers={responses} setAnswers={setResponses} />
