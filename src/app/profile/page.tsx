@@ -3,7 +3,8 @@
 import Pill from "@/components/Pill";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
-import { QuestionnaireFlow, QuestionnaireProvider } from "./questions/context";
+import { QuestionnaireProvider } from "./questions/context";
+import { QuestionnaireFlow } from "./questions/QuestionnaireFlow";
 
 const ProfilePage: React.FC = () => {
   const { data: session } = useSession();
