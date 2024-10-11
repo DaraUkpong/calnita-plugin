@@ -3,9 +3,12 @@
 import React, { FC } from "react";
 import BottomNavButton from "./BottomNavButton";
 import { usePathname } from "next/navigation";
+import { useAttention } from "./AttentionContext";
+import { tabs } from "./tabs";
 
 export const BottomNav: FC = () => {
   const pathname = usePathname();
+  const { attentionNeeded } = useAttention();
 
   //console.log("Current pathname:", pathname);
 
@@ -30,30 +33,16 @@ export const BottomNav: FC = () => {
       <div className="flex items-center justify-center h-full w-[calc(100%-60px)]">
         {/* Inner div taking up 72% of the parent container width (approx. 327/451 ratio) */}
         <div className="flex flex-row justify-between  items-center w-[72%] h-[40px] ">
-          <BottomNavButton
-            path="/recommendations"
-            imgSrc="/assets/foryou.png"
-            label="For You"
-            isSelected={isActive("/recommendations")}
-          />
-          <BottomNavButton
-            path="/routine"
-            imgSrc="/assets/routine.png"
-            label="Routine"
-            isSelected={isActive("/routine")}
-          />
-          <BottomNavButton
-            path="/share"
-            imgSrc="/assets/share.png"
-            label="Share"
-            isSelected={isActive("/share")}
-          />
-          <BottomNavButton
-            path="/aichat"
-            imgSrc="/assets/aichat.png"
-            label="AI Chat"
-            isSelected={isActive("/aichat")}
-          />
+          {tabs.map((tab) => (
+            <BottomNavButton
+              key={tab.key}
+              path={tab.path}
+              imgSrc={tab.imgSrc}
+              label={tab.label}
+              isSelected={isActive(tab.path)}
+              isAttentionNeeded={attentionNeeded[tab.key]} // Type-safe access to attention state
+            />
+          ))}
         </div>
       </div>
 
