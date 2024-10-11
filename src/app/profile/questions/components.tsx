@@ -21,6 +21,40 @@ function QuestionLayout({ title, children }: QuestionLayoutProps) {
   );
 }
 
+export function Question0() {
+  const categories = ["Skin Care", "Fragrance", "Makeup", "Hair Care"];
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category]
+    );
+  };
+  return (
+    <>
+      <h1 className="md:text-4xl text-[35px] font-[600] mt-[84px] ">
+        💖 Tell Us About Your Beauty Needs
+      </h1>
+      <p className="text-[20px] font-semibold mt-[25px] ">
+        Select Your Preferred Category
+      </p>
+      <div className="mt-[31px] flex flex-col gap-[10px] ">
+        {categories.map((category) => (
+          <Pill
+            key={category}
+            label={category}
+            selected={selectedCategories.includes(category)}
+            onClick={() => handleCategoryClick(category)}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
 export function Question1A() {
   const skinTypes = ["Oily", "Dry", "Combination", "Sensitive", "Normal"];
   const [selectedSkinType, setSelectedSkinType] = useState<string | null>(null);
