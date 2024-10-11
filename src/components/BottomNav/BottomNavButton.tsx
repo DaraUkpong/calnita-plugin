@@ -10,6 +10,7 @@ interface BottomNavButtonProps {
   label: string;
   path: string;
   isSelected?: boolean;
+  isAttentionNeeded?: boolean;
 }
 
 const BottomNavButton: React.FC<BottomNavButtonProps> = ({
@@ -17,6 +18,7 @@ const BottomNavButton: React.FC<BottomNavButtonProps> = ({
   label,
   path,
   isSelected,
+  isAttentionNeeded = false,
 }) => {
   const router = useRouter();
 
@@ -32,7 +34,12 @@ const BottomNavButton: React.FC<BottomNavButtonProps> = ({
                   isSelected
                     ? "bg-[#222222] text-white"
                     : "bg-transparent text-black hover:bg-gray-200"
-                }`}
+                }
+                  ${
+                    isAttentionNeeded
+                      ? "animate-pulse border border-yellow-500"
+                      : ""
+                  }`}
     >
       <Image src={imgSrc} alt={label} width={30} height={34} />
       {isSelected && (
