@@ -1,6 +1,5 @@
 import Pill from "@/components/Pill";
 import PillInput from "@/components/PillInput";
-import ProgressBar from "@/components/ProgressBar";
 import React, { useState } from "react";
 
 interface QuestionLayoutProps {
@@ -9,22 +8,16 @@ interface QuestionLayoutProps {
   children: React.ReactNode; // Content passed inside the component
 }
 
-function QuestionLayout({ title, children, progress }: QuestionLayoutProps) {
+function QuestionLayout({ title, children }: QuestionLayoutProps) {
   return (
-    <div className="">
-      <div className="text-[12px] text-[#222222] flex justify-between mt-[50px]">
-        <span>Makeup</span>
-        <span>6 of 20</span>
-      </div>
-
-      <ProgressBar progress={progress} />
-
+    <>
       <p className="text-[20px] text-[#222222] font-semibold mt-[30px]">
         {title}
       </p>
 
+      {/**question-content is unused */}
       <div className="question-content mt-[60px]">{children}</div>
-    </div>
+    </>
   );
 }
 
