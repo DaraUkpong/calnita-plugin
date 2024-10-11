@@ -3,15 +3,15 @@
 import React, { createContext, useContext, useState } from "react";
 import { questionsByCategory } from "./questionsByCategory";
 import { Question0 } from "./components";
-import { Category, Question } from "./types";
+import { Category, Question, Response } from "./types";
 
 type QuestionnaireContextType = {
   currentQuestionIndex: number;
-  responses: Record<string, any>;
+  responses: Response;
   mergedQuestions: Question[];
   goToNextQuestion: () => void;
   goToPreviousQuestion: () => void;
-  setResponses: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setResponses: React.Dispatch<React.SetStateAction<Response>>;
   setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   totalQuestions: number;
   selectedCategories: Category[];
@@ -32,7 +32,7 @@ export function QuestionnaireProvider({
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
 
   // Question tracking state (e.g., responses, progress)
-  const [responses, setResponses] = useState<Record<string, any>>({});
+  const [responses, setResponses] = useState<Response>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   // Merge and deduplicate questions based on selected categories
