@@ -26,6 +26,7 @@ import {
   Question24,
   Question25,
 } from "./components";
+import { Category, Question } from "./types";
 
 // Define placeholder question components (replace these with your actual imports)
 /*const Question1 = () => <div>Question 1 Component</div>;
@@ -54,18 +55,6 @@ const Question23 = () => <div>Question 23 Component</div>;
 const Question24 = () => <div>Question 24 Component</div>;
 const Question25 = () => <div>Question 25 Component</div>;
 const Question1A = () => <div>Shared Question 1A Component</div>;*/
-
-export type Category =
-  | "Skin Care"
-  | "Makeup"
-  | "Fragrance"
-  | "Hair Care"
-  | "General";
-
-export type Question = {
-  id: string;
-  component: React.ComponentType<any>; // Use React.ComponentType for dynamic components
-};
 
 /**
  * Beauty Needs Questionnaire Structure

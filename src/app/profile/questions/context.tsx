@@ -1,8 +1,9 @@
 "use client";
 
 import React, { createContext, useContext, useState } from "react";
-import { Category, Question, questionsByCategory } from "./questionsByCategory";
+import { questionsByCategory } from "./questionsByCategory";
 import { Question0 } from "./components";
+import { Category, Question } from "./types";
 
 type QuestionnaireContextType = {
   currentQuestionIndex: number;
