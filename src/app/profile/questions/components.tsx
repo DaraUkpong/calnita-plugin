@@ -1,6 +1,8 @@
 import Pill from "@/components/Pill";
 import PillInput from "@/components/PillInput";
 import React, { useState } from "react";
+import { useQuestionnaire } from "./context";
+import { Category } from "./types";
 
 interface QuestionLayoutProps {
   title: string; // Title of the question
@@ -21,11 +23,17 @@ function QuestionLayout({ title, children }: QuestionLayoutProps) {
 }
 
 export function Question0() {
-  const categories = ["Skin Care", "Fragrance", "Makeup", "Hair Care"];
+  const { selectedCategories, setSelectedCategories } = useQuestionnaire();
+  const categories: Category[] = [
+    "Skin Care",
+    "Fragrance",
+    "Makeup",
+    "Hair Care",
+  ];
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  //const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryClick = (category: Category) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
@@ -40,7 +48,7 @@ export function Question0() {
       <p className="text-[20px] font-semibold mt-[25px] ">
         Select Your Preferred Category
       </p>
-      <div className="mt-[31px] flex flex-col gap-[10px] ">
+      <div className="mt-[31px] flex flex-col gap-[10px] flex-1 overflow-auto ">
         {categories.map((category) => (
           <Pill
             key={category}
@@ -56,10 +64,14 @@ export function Question0() {
 
 export function Question1A() {
   const skinTypes = ["Oily", "Dry", "Combination", "Sensitive", "Normal"];
-  const [selectedSkinType, setSelectedSkinType] = useState<string | null>(null);
+  // const [selectedSkinType, setSelectedSkinType] = useState<string | null>(null);
+  const { responses, updateResponse } = useQuestionnaire();
+
+  const selectedSkinType = responses.skinType as string | undefined;
 
   const handleSkinTypeClick = (label: string) => {
-    setSelectedSkinType(label);
+    // setSelectedSkinType(label);
+    updateResponse("skinType", label);
   };
 
   return (
@@ -93,12 +105,19 @@ export function Question1() {
     "Hair Thinning",
   ];
 
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
+  /*const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
 
   const handleConcernClick = (label: string) => {
     setSelectedConcerns((prev) =>
       prev.includes(label) ? prev.filter((c) => c !== label) : [...prev, label]
     );
+  };*/
+  const { responses, updateResponse } = useQuestionnaire();
+
+  const selectedConcerns = (responses.skinConcerns as string[]) || [];
+
+  const handleConcernClick = (label: string) => {
+    updateResponse("skinConcerns", label, true);
   };
 
   return (
