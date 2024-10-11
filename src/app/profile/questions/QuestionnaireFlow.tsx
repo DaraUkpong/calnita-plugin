@@ -8,8 +8,6 @@ export function QuestionnaireFlow() {
     goToPreviousQuestion,
     mergedQuestions,
     currentQuestionIndex,
-    responses,
-    setResponses,
     totalQuestions,
     selectedCategories,
   } = useQuestionnaire();
@@ -42,7 +40,7 @@ export function QuestionnaireFlow() {
       )}
 
       {/* Dynamically render the current question */}
-      <CurrentQuestionComponent answers={responses} setAnswers={setResponses} />
+      <CurrentQuestionComponent />
 
       {/* Navigation buttons */}
       <button
