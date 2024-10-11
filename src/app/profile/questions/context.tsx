@@ -15,6 +15,11 @@ type QuestionnaireContextType = {
   setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   totalQuestions: number;
   selectedCategories: Category[];
+  updateResponse: (
+    key: keyof Response,
+    value: Response[keyof Response],
+    isMultipleChoice?: boolean
+  ) => void;
 };
 
 const QuestionnaireContext = createContext<
@@ -75,6 +80,30 @@ export function QuestionnaireProvider({
 
   const totalQuestions = mergedQuestions.length;
 
+  /*const updateResponse = (key: string, value: string | string[] | boolean) => {
+    setResponses((prev: Response) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };*/
+  const updateResponse = (
+    key: keyof Response,
+    value: Response[keyof Response],
+    isMultipleChoice: boolean = false
+  ) => {
+    setResponses((prev: Response) => {
+      if (isMultipleChoice) {
+        const currentValues = (prev[key] as string[]) || [];
+        const updatedValues = currentValues.includes(value as string)
+          ? currentValues.filter((v) => v !== value)
+          : [...currentValues, value];
+        return { ...prev, [key]: updatedValues };
+      } else {
+        return { ...prev, [key]: value };
+      }
+    });
+  };
+
   return (
     <QuestionnaireContext.Provider
       value={{
@@ -87,6 +116,7 @@ export function QuestionnaireProvider({
         setSelectedCategories,
         totalQuestions,
         selectedCategories,
+        updateResponse,
       }}
     >
       {children}

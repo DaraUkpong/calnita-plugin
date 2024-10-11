@@ -10,4 +10,8 @@ export type Question = {
   component: React.ComponentType<any>; // Use React.ComponentType for dynamic components
 };
 
-export type Response = Record<string, string | string[] | boolean | undefined>;
+type ResponseKeys = "skinType" | "skinConcerns" | "otherSkinConcern";
+
+export type Response = Partial<
+  Record<ResponseKeys, string | string[] | boolean | undefined>
+>;
