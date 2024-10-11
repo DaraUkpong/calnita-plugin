@@ -4,7 +4,6 @@ import React, { useState } from "react";
 
 interface QuestionLayoutProps {
   title: string; // Title of the question
-  progress: number; // Progress value for the progress bar
   children: React.ReactNode; // Content passed inside the component
 }
 
@@ -64,7 +63,7 @@ export function Question1A() {
   };
 
   return (
-    <QuestionLayout title="Select Your Skin Type" progress={10}>
+    <QuestionLayout title="Select Your Skin Type">
       <div className="mt-[31px] flex flex-col gap-[10px] ">
         {skinTypes.map((type) => (
           <Pill
@@ -103,7 +102,7 @@ export function Question1() {
   };
 
   return (
-    <QuestionLayout title="What is your primary skin concern?" progress={10}>
+    <QuestionLayout title="What is your primary skin concern?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {concerns.map((concern) => (
           <Pill
@@ -143,10 +142,7 @@ export function Question2() {
   };
 
   return (
-    <QuestionLayout
-      title="What skin care products do you currently use?"
-      progress={10}
-    >
+    <QuestionLayout title="What skin care products do you currently use?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {products.map((product) => (
           <Pill
@@ -176,10 +172,7 @@ export function Question3() {
   };
 
   return (
-    <QuestionLayout
-      title="How would you describe your skin care routine?"
-      progress={10}
-    >
+    <QuestionLayout title="How would you describe your skin care routine?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {routines.map((routine) => (
           <Pill
@@ -213,10 +206,7 @@ export function Question4() {
   };
 
   return (
-    <QuestionLayout
-      title="Do you have any known allergies to skin care ingredients?"
-      progress={10}
-    >
+    <QuestionLayout title="Do you have any known allergies to skin care ingredients?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         <PillInput
           pillLabel="Yes"
@@ -239,10 +229,7 @@ export function Question5() {
   const [preference, setPreference] = useState<string | null>(null);
 
   return (
-    <QuestionLayout
-      title="Do you prefer fragrance-free skincare products"
-      progress={10}
-    >
+    <QuestionLayout title="Do you prefer fragrance-free skincare products">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {options.map((option) => (
           <Pill
@@ -281,7 +268,7 @@ export function Question6() {
   };
 
   return (
-    <QuestionLayout title="What type of scents do you prefer?" progress={10}>
+    <QuestionLayout title="What type of scents do you prefer?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {scentPreferences.map((scent) => (
           <Pill
@@ -313,7 +300,7 @@ export function Question7() {
   const [frequency, setFrequency] = useState<string | null>(null);
 
   return (
-    <QuestionLayout title=" How often do you wear perfume?" progress={10}>
+    <QuestionLayout title=" How often do you wear perfume?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {frequencies.map((option) => (
           <Pill
@@ -334,10 +321,7 @@ export function Question8() {
   const [preference, setPreference] = useState<string | null>(null);
 
   return (
-    <QuestionLayout
-      title="Do you prefer stronger or more subtle fragrances?"
-      progress={10}
-    >
+    <QuestionLayout title="Do you prefer stronger or more subtle fragrances?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {preferences.map((option) => (
           <Pill
@@ -371,10 +355,7 @@ export function Question9() {
   };
 
   return (
-    <QuestionLayout
-      title="Are you sensitive or allergic to any specific fragrance ingredients?"
-      progress={10}
-    >
+    <QuestionLayout title="Are you sensitive or allergic to any specific fragrance ingredients?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         <PillInput
           pillLabel="Yes"
@@ -419,10 +400,7 @@ export function Question10() {
   };
 
   return (
-    <QuestionLayout
-      title="Which makeup products do you use daily?"
-      progress={10}
-    >
+    <QuestionLayout title="Which makeup products do you use daily?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {makeupProducts.map((product) => (
           <Pill
@@ -457,10 +435,7 @@ export function Question11() {
   };
 
   return (
-    <QuestionLayout
-      title="Do you have any particular makeup concerns?"
-      progress={10}
-    >
+    <QuestionLayout title="Do you have any particular makeup concerns?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {concerns.map((concern) => (
           <Pill
@@ -485,10 +460,7 @@ export function Question12() {
   };
 
   return (
-    <QuestionLayout
-      title="What are your preferred makeup finishes?"
-      progress={10}
-    >
+    <QuestionLayout title="What are your preferred makeup finishes?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {finishes.map((finish) => (
           <Pill
@@ -522,10 +494,7 @@ export function Question13() {
   };
 
   return (
-    <QuestionLayout
-      title="Are there any makeup ingredients you are allergic to or prefer to avoid?"
-      progress={10}
-    >
+    <QuestionLayout title="Are there any makeup ingredients you are allergic to or prefer to avoid?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         <PillInput
           pillLabel="Yes"
@@ -553,10 +522,7 @@ export function Question14() {
   };
 
   return (
-    <QuestionLayout
-      title="What are your preferred makeup finishes?"
-      progress={10}
-    >
+    <QuestionLayout title="What are your preferred makeup finishes?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {hairTypes.map((hairType) => (
           <Pill
@@ -594,7 +560,7 @@ export function Question15() {
   };
 
   return (
-    <QuestionLayout title="What are your main hair concerns?" progress={10}>
+    <QuestionLayout title="What are your main hair concerns?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {concerns.map((concern) => (
           <Pill
@@ -631,10 +597,7 @@ export function Question16() {
   };
 
   return (
-    <QuestionLayout
-      title="What hair care products do you use regularly?"
-      progress={10}
-    >
+    <QuestionLayout title="What hair care products do you use regularly?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {products.map((product) => (
           <Pill
@@ -661,7 +624,7 @@ export function Question17() {
   };
 
   return (
-    <QuestionLayout title="How often do you wash your hair?" progress={10}>
+    <QuestionLayout title="How often do you wash your hair?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {frequencies.map((frequency) => (
           <Pill
@@ -686,7 +649,7 @@ export function Question18() {
   };
 
   return (
-    <QuestionLayout title="Do you use any heat styling tools?" progress={10}>
+    <QuestionLayout title="Do you use any heat styling tools?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {tools.map((tool) => (
           <Pill
@@ -720,10 +683,7 @@ export function Question19() {
   };
 
   return (
-    <QuestionLayout
-      title="Are you allergic to any hair care ingredients?"
-      progress={10}
-    >
+    <QuestionLayout title="Are you allergic to any hair care ingredients?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         <PillInput
           pillLabel="Yes"
@@ -759,7 +719,7 @@ export function Question20() {
   };
 
   return (
-    <QuestionLayout title=" What is your age?" progress={10}>
+    <QuestionLayout title=" What is your age?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {ageGroups.map((ageGroup) => (
           <Pill
@@ -784,7 +744,7 @@ export function Question21() {
   };
 
   return (
-    <QuestionLayout title="What is your gender?" progress={10}>
+    <QuestionLayout title="What is your gender?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
         {genders.map((gender) => (
           <Pill
@@ -801,7 +761,7 @@ export function Question21() {
 
 export function Question22() {
   return (
-    <QuestionLayout title="Which country are you located in?" progress={10}>
+    <QuestionLayout title="Which country are you located in?">
       <>{/* Dropdown for Country Selection */}</>
     </QuestionLayout>
   );
@@ -830,10 +790,7 @@ export function Question23() {
   };
 
   return (
-    <QuestionLayout
-      title="Are there any ingredients you prefer to avoid in your beauty products?"
-      progress={10}
-    >
+    <QuestionLayout title="Are there any ingredients you prefer to avoid in your beauty products?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {ingredients.map((ingredient) => (
           <Pill
@@ -868,10 +825,7 @@ export function Question24() {
   };
 
   return (
-    <QuestionLayout
-      title="Do you have any dietary restrictions or lifestyle preferences that affect your beauty product choices?"
-      progress={10}
-    >
+    <QuestionLayout title="Do you have any dietary restrictions or lifestyle preferences that affect your beauty product choices?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {lifestylePreferences.map((preference) => (
           <Pill
@@ -911,10 +865,7 @@ export function Question25() {
   };
 
   return (
-    <QuestionLayout
-      title="Are there any specific natural ingredients you prefer in your beauty products?"
-      progress={10}
-    >
+    <QuestionLayout title="Are there any specific natural ingredients you prefer in your beauty products?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
         {naturalIngredients.map((ingredient) => (
           <Pill
