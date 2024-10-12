@@ -32,7 +32,7 @@ export const BottomNav: FC = () => {
       {/* The Outer Container with the reserved 50px + 10px(for the closing button icon width and positioning respectively) space on the right */}
       <div className="flex items-center justify-center h-full w-[calc(100%-60px)]">
         {/* Inner div taking up 72% of the parent container width (approx. 327/451 ratio) */}
-        <div className="flex flex-row justify-between  items-center w-[72%] h-[40px] ">
+        <div className="flex flex-row justify-between items-center w-[95%] iframe-lg:w-[72%] h-[40px] ">
           {tabs.map((tab) => (
             <BottomNavButton
               key={tab.key}
