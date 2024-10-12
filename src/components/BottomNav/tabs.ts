@@ -13,10 +13,10 @@ export const tabs: {
     key: "recommendations",
   },
   {
-    path: "/routine",
+    path: "/profile",
     imgSrc: "/assets/routine.png",
-    label: "Routine",
-    key: "routine",
+    label: "Profile",
+    key: "profile",
   },
   {
     path: "/aichat",
