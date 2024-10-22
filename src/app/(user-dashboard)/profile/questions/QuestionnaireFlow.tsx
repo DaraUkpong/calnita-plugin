@@ -39,8 +39,9 @@ export function QuestionnaireFlow() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col text-black min-h-screen  ">
-      <div className="flex-1 flex items-stretch ">
+    //68px is subtracted to account for the bottom tab
+    <div className="w-full h-full flex flex-col text-black min-h-[calc(100vh-68px)]  ">
+      <div className="flex-1 flex items-stretch overflow-hidden ">
         {/* Left Navigation */}
         <div className="w-[40px] flex items-center justify-start">
           {currentQuestionIndex > 0 && (
@@ -54,7 +55,7 @@ export function QuestionnaireFlow() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col ">
           {/* Progress Bar and Selected Categories */}
           {currentQuestionIndex > 0 && (
             <>
@@ -72,7 +73,10 @@ export function QuestionnaireFlow() {
             </>
           )}
 
-          <CurrentQuestionComponent />
+          {/* Scrollable Question Content */}
+          <div className="flex-1 mt-[30px]  pb-[99px] overflow-y-auto scrollbar-hidden ">
+            <CurrentQuestionComponent />
+          </div>
         </div>
 
         {/* Right Navigation */}
@@ -90,7 +94,7 @@ export function QuestionnaireFlow() {
 
       {/* Finish Button */}
       {currentQuestionIndex === mergedQuestions.length - 1 && (
-        <div className="p-4 flex justify-center fixed bottom-[46px] left-0 right-0 ">
+        <div className="p-4 flex justify-center fixed bottom-[68px] left-0 right-0 backdrop-blur-md backdrop-opacity-60 bg-[rgb(250, 246, 246)]/30 w-fit rounded-[20px] ">
           <button
             onClick={handleFinish}
             className="w-[204px] h-[69px] rounded-[20px] bg-black text-white text-[16px] font-semibold"
