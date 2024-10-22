@@ -41,7 +41,13 @@ const BottomNavButton: React.FC<BottomNavButtonProps> = ({
                       : ""
                   }`}
     >
-      <Image src={imgSrc} alt={label} width={30} height={34} />
+      <Image
+        src={imgSrc}
+        alt={label}
+        width={30}
+        height={34}
+        style={{ height: "auto" }}
+      />
       {isSelected && (
         <span className="font-semibold text-[14px] ">{label}</span>
       )}
