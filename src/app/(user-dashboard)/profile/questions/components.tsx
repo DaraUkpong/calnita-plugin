@@ -12,9 +12,7 @@ interface QuestionLayoutProps {
 function QuestionLayout({ title, children }: QuestionLayoutProps) {
   return (
     <>
-      <p className="text-[20px] text-[#222222] font-semibold mt-[30px]">
-        {title}
-      </p>
+      <p className="text-[20px] text-[#222222] font-semibold ">{title}</p>
 
       {/**question-content is unused */}
       <div className="question-content mt-[60px]">{children}</div>
