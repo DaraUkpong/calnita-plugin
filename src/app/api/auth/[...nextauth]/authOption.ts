@@ -36,7 +36,12 @@ export const authOptions: NextAuthOptions = {
 
         if (authResponse.success && authResponse.user) {
           // console.log("User authenticated successfully:", user);
-          return authResponse.user;
+          //return authResponse.user;
+          return {
+            ...authResponse.user,
+            accessToken: authResponse.authData?.accessToken,
+            refreshToken: authResponse.authData?.refreshToken,
+          };
         } else {
           // console.log("Authentication failed");
           return null;
@@ -55,6 +60,9 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.email = user.email;
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
       }
       return token;
     },
@@ -62,6 +70,8 @@ export const authOptions: NextAuthOptions = {
       //console.log("Session callback:", { session, token });
       if (session.user) {
         session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.accessToken = token.accessToken;
       }
       return session;
     },
