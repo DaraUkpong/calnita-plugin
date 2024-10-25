@@ -1,8 +1,23 @@
 import Pill from "@/components/Pill";
 import PillInput from "@/components/PillInput";
-import React, { useState } from "react";
+import React from "react";
 import { useQuestionnaire } from "./context";
-import { Category } from "./types";
+import {
+  AGE_GROUPS,
+  INGREDIENTS_TO_AVOID,
+  Category,
+  GENDERS,
+  HAIR_CONCERNS,
+  HAIR_TYPES,
+  LIFESTYLE_PREFERENCES,
+  MAKEUP_PRODUCTS,
+  NATURAL_INGREDIENTS,
+  ROUTINE_TYPES,
+  SCENT_PREFERENCES,
+  SKIN_CONCERNS,
+  SKIN_PRODUCTS,
+  SKIN_TYPES,
+} from "./types";
 
 interface QuestionLayoutProps {
   title: string; // Title of the question
@@ -61,26 +76,23 @@ export function Question0() {
 }
 
 export function Question1A() {
-  const skinTypes = ["Oily", "Dry", "Combination", "Sensitive", "Normal"];
-  // const [selectedSkinType, setSelectedSkinType] = useState<string | null>(null);
   const { responses, updateResponse } = useQuestionnaire();
 
-  const selectedSkinType = responses.skinType as string | undefined;
+  const selectedValues = responses.skinType as string;
 
-  const handleSkinTypeClick = (label: string) => {
-    // setSelectedSkinType(label);
-    updateResponse("skinType", label);
+  const handleSelect = (value: string) => {
+    updateResponse("skinType", value);
   };
 
   return (
     <QuestionLayout title="Select Your Skin Type">
       <div className="mt-[31px] flex flex-col gap-[10px] ">
-        {skinTypes.map((type) => (
+        {SKIN_TYPES.map((option) => (
           <Pill
-            key={type}
-            label={type}
-            selected={selectedSkinType === type}
-            onClick={() => handleSkinTypeClick(type)}
+            key={option}
+            label={option}
+            selected={selectedValues === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -89,114 +101,101 @@ export function Question1A() {
 }
 
 export function Question1() {
-  const concerns = [
-    "Acne",
-    "Stretch Marks",
-    "Teeth",
-    "Hair Growth",
-    "Mouth Odour",
-    "Bald Hair",
-    "Skin Type Problems",
-    "Blackheads",
-    "Redness",
-    "Aging",
-    "Hair Thinning",
-  ];
-
-  /*const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
-
-  const handleConcernClick = (label: string) => {
-    setSelectedConcerns((prev) =>
-      prev.includes(label) ? prev.filter((c) => c !== label) : [...prev, label]
-    );
-  };*/
   const { responses, updateResponse } = useQuestionnaire();
 
-  const selectedConcerns = (responses.skinConcerns as string[]) || [];
+  const selectedValues = (responses.skinConcerns as string[]) || [];
 
-  const handleConcernClick = (label: string) => {
-    updateResponse("skinConcerns", label, true);
+  const handleSelect = (value: string) => {
+    updateResponse("skinConcerns", value, true);
+  };
+
+  const customInputValue = responses.customSkinConcern as string;
+
+  const handleCustomInput = (value: string) => {
+    if (value.trim()) {
+      updateResponse("customSkinConcern", value);
+    }
   };
 
   return (
     <QuestionLayout title="What is your primary skin concern?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {concerns.map((concern) => (
+        {SKIN_CONCERNS.map((option) => (
           <Pill
-            key={concern}
-            label={concern}
-            selected={selectedConcerns.includes(concern)}
-            onClick={() => handleConcernClick(concern)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
-      <PillInput pillLabel="Others" placeholder="Type Concerns" />
+      <PillInput
+        pillLabel="Others"
+        placeholder="Type Concerns"
+        value={customInputValue}
+        onChange={handleCustomInput}
+      />
     </QuestionLayout>
   );
 }
 
 export function Question2() {
-  const products = [
-    "Mist",
-    "Spot Treatment",
-    "Moisturizer",
-    "Makeup Remover",
-    "Exfoliator",
-    "Toner",
-    //"Spot Treatment",
-    "Sunscreen",
-    "Eye Cream",
-    "Serum",
-    "Essence",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const selectedValues = (responses.skinProducts as string[]) || [];
 
-  const handleProductClick = (label: string) => {
-    setSelectedProducts((prev) =>
-      prev.includes(label) ? prev.filter((p) => p !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("skinProducts", value, true);
+  };
+
+  const customInputValue = responses.customSkinProducts as string;
+
+  const handleCustomInput = (value: string) => {
+    if (value.trim()) {
+      updateResponse("customSkinProducts", value);
+    }
   };
 
   return (
     <QuestionLayout title="What skin care products do you currently use?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {products.map((product) => (
+        {SKIN_PRODUCTS.map((option) => (
           <Pill
-            key={product}
-            label={product}
-            selected={selectedProducts.includes(product)}
-            onClick={() => handleProductClick(product)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
-      <PillInput pillLabel="Makeup" placeholder="Type Product" />
+      <PillInput
+        pillLabel="Makeup"
+        placeholder="Type Product"
+        value={customInputValue}
+        onChange={handleCustomInput}
+      />
     </QuestionLayout>
   );
 }
 
 export function Question3() {
-  const routines = [
-    "Simple (1-3 steps)",
-    "Moderate (4-6 steps)",
-    "Extensive (7+ steps)",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedRoutine, setSelectedRoutine] = useState<string | null>(null);
+  const selectedValue = responses.skinCareRoutine as string;
 
-  const handleRoutineClick = (label: string) => {
-    setSelectedRoutine(label);
+  const handleSelect = (value: string) => {
+    updateResponse("skinCareRoutine", value);
   };
 
   return (
     <QuestionLayout title="How would you describe your skin care routine?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
-        {routines.map((routine) => (
+        {ROUTINE_TYPES.map((option) => (
           <Pill
-            key={routine}
-            label={routine}
-            selected={selectedRoutine === routine}
-            onClick={() => handleRoutineClick(routine)}
+            key={option}
+            label={option}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -205,20 +204,26 @@ export function Question3() {
 }
 
 export function Question4() {
-  const [hasAllergy, setHasAllergy] = useState<boolean>(false);
-  const [allergyText, setAllergyText] = useState<string | undefined>("");
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const handleAllergyClick = (value: boolean) => {
-    setHasAllergy(value);
+  const isNoSelected = responses.skinAllergies === false;
+
+  const handleSelect = (value: boolean) => {
+    updateResponse("skinAllergies", value);
     if (!value) {
-      setAllergyText("");
+      updateResponse("skinAllergyDetails", "");
     }
   };
 
-  const handleInputChange = (newValue: string) => {
-    setAllergyText(newValue);
-    if (newValue !== "") {
-      setHasAllergy(true);
+  const inputValue = responses.skinAllergyDetails as string;
+
+  const handleInput = (value: string) => {
+    if (value.trim()) {
+      updateResponse("skinAllergies", true);
+      updateResponse("skinAllergyDetails", value);
+    } else {
+      updateResponse("skinAllergies", false); // Mark it as "No" when input is empty
+      updateResponse("skinAllergyDetails", ""); // Clear allergy details
     }
   };
 
@@ -228,13 +233,13 @@ export function Question4() {
         <PillInput
           pillLabel="Yes"
           placeholder="Please Specify"
-          value={allergyText}
-          onChange={handleInputChange}
+          value={inputValue}
+          onChange={handleInput}
         />
         <Pill
           label="No"
-          selected={hasAllergy === false}
-          onClick={() => handleAllergyClick(false)}
+          selected={isNoSelected}
+          onClick={() => handleSelect(false)}
         />
       </div>
     </QuestionLayout>
@@ -242,8 +247,14 @@ export function Question4() {
 }
 
 export function Question5() {
+  const { responses, updateResponse } = useQuestionnaire();
   const options = ["Yes", "No", "No Preference"];
-  const [preference, setPreference] = useState<string | null>(null);
+
+  const selectedValue = responses.fragranceFree as string;
+
+  const handleSelect = (value: string) => {
+    updateResponse("fragranceFree", value);
+  };
 
   return (
     <QuestionLayout title="Do you prefer fragrance-free skincare products">
@@ -252,8 +263,8 @@ export function Question5() {
           <Pill
             key={option}
             label={option}
-            selected={preference === option}
-            onClick={() => setPreference(option)}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -262,51 +273,46 @@ export function Question5() {
 }
 
 export function Question6() {
-  const scentPreferences = [
-    "Floral",
-    "Woody",
-    "Citrus",
-    "Fresh",
-    "Spicy",
-    "Oriental",
-    "Fruity",
-    "Aquatic",
-    "Musk",
-    "Gourmand",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedScents, setSelectedScents] = useState<string[]>([]);
-  const [customScent, setCustomScent] = useState<string>("");
+  const selectedValues = (responses.scentPreferences as string[]) || [];
 
-  const handleScentClick = (label: string) => {
-    setSelectedScents((prev) =>
-      prev.includes(label) ? prev.filter((s) => s !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("scentPreferences", value, true);
+  };
+
+  const customInputValue = responses.customScentPreference as string;
+
+  const handleCustomInput = (value: string) => {
+    if (value.trim()) {
+      updateResponse("customScentPreference", value);
+    }
   };
 
   return (
     <QuestionLayout title="What type of scents do you prefer?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {scentPreferences.map((scent) => (
+        {SCENT_PREFERENCES.map((option) => (
           <Pill
-            key={scent}
-            label={scent}
-            selected={selectedScents.includes(scent)}
-            onClick={() => handleScentClick(scent)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
       <PillInput
         pillLabel="Others"
         placeholder="Type Scents"
-        value={customScent}
-        onChange={(e) => setCustomScent(e)}
+        value={customInputValue}
+        onChange={handleCustomInput}
       />
     </QuestionLayout>
   );
 }
 
 export function Question7() {
+  const { responses, updateResponse } = useQuestionnaire();
   const frequencies = [
     "Daily",
     "Occasionally",
@@ -314,7 +320,12 @@ export function Question7() {
     "Rarely",
     "Never",
   ];
-  const [frequency, setFrequency] = useState<string | null>(null);
+
+  const selectedValue = responses.fragranceFrequency as string;
+
+  const handleSelect = (value: string) => {
+    updateResponse("fragranceFrequency", value);
+  };
 
   return (
     <QuestionLayout title=" How often do you wear perfume?">
@@ -323,8 +334,8 @@ export function Question7() {
           <Pill
             key={option}
             label={option}
-            selected={frequency === option}
-            onClick={() => setFrequency(option)}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -333,9 +344,14 @@ export function Question7() {
 }
 
 export function Question8() {
+  const { responses, updateResponse } = useQuestionnaire();
   const preferences = ["Strong", "Moderate", "Subtle", "Sensitive"];
 
-  const [preference, setPreference] = useState<string | null>(null);
+  const selectedValue = responses.fragranceStrength as string;
+
+  const handleSelect = (value: string) => {
+    updateResponse("fragranceStrength", value);
+  };
 
   return (
     <QuestionLayout title="Do you prefer stronger or more subtle fragrances?">
@@ -344,8 +360,8 @@ export function Question8() {
           <Pill
             key={option}
             label={option}
-            selected={preference === option}
-            onClick={() => setPreference(option)}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -354,20 +370,26 @@ export function Question8() {
 }
 
 export function Question9() {
-  const [hasAllergy, setHasAllergy] = useState<boolean>(false);
-  const [allergyText, setAllergyText] = useState<string | undefined>("");
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const handleAllergyClick = (value: boolean) => {
-    setHasAllergy(value);
+  const isNoSelected = responses.fragranceAllergies === false;
+
+  const handleSelect = (value: boolean) => {
+    updateResponse("fragranceAllergies", value);
     if (!value) {
-      setAllergyText("");
+      updateResponse("fragranceAllergyDetails", "");
     }
   };
 
-  const handleInputChange = (newValue: string) => {
-    setAllergyText(newValue);
-    if (newValue !== "") {
-      setHasAllergy(true);
+  const inputValue = responses.fragranceAllergyDetails as string;
+
+  const handleInput = (value: string) => {
+    if (value.trim()) {
+      updateResponse("fragranceAllergies", true);
+      updateResponse("fragranceAllergyDetails", value);
+    } else {
+      updateResponse("fragranceAllergies", false);
+      updateResponse("fragranceAllergyDetails", "");
     }
   };
 
@@ -377,13 +399,13 @@ export function Question9() {
         <PillInput
           pillLabel="Yes"
           placeholder="Please Specify"
-          value={allergyText}
-          onChange={handleInputChange}
+          value={inputValue}
+          onChange={handleInput}
         />
         <Pill
           label="No"
-          selected={hasAllergy === false}
-          onClick={() => handleAllergyClick(false)}
+          selected={isNoSelected}
+          onClick={() => handleSelect(false)}
         />
       </div>
     </QuestionLayout>
@@ -391,40 +413,23 @@ export function Question9() {
 }
 
 export function Question10() {
-  const makeupProducts = [
-    "Foundation",
-    "Concealer",
-    "Powder",
-    "Blush",
-    "Highlighter",
-    "Bronzer",
-    "Eyeshadow",
-    "Eyeliner",
-    "Lip Gloss",
-    "Mascara",
-    "Eyebrow Pencil",
-    "Lipstick",
-    "Lip Balm",
-    "Setting Spray",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const selectedValues = (responses.dailyMakeupProducts as string[]) || [];
 
-  const handleProductClick = (label: string) => {
-    setSelectedProducts((prev) =>
-      prev.includes(label) ? prev.filter((p) => p !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("dailyMakeupProducts", value, true);
   };
 
   return (
     <QuestionLayout title="Which makeup products do you use daily?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {makeupProducts.map((product) => (
+        {MAKEUP_PRODUCTS.map((option) => (
           <Pill
-            key={product}
-            label={product}
-            selected={selectedProducts.includes(product)}
-            onClick={() => handleProductClick(product)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -433,6 +438,7 @@ export function Question10() {
 }
 
 export function Question11() {
+  const { responses, updateResponse } = useQuestionnaire();
   const concerns = [
     "Long-lasting",
     "Non-comedogenic",
@@ -443,23 +449,21 @@ export function Question11() {
     "Mattifying",
   ];
 
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
+  const selectedValues = (responses.makeupConcerns as string[]) || [];
 
-  const handleConcernClick = (label: string) => {
-    setSelectedConcerns((prev) =>
-      prev.includes(label) ? prev.filter((c) => c !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("makeupConcerns", value, true);
   };
 
   return (
     <QuestionLayout title="Do you have any particular makeup concerns?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {concerns.map((concern) => (
+        {concerns.map((option) => (
           <Pill
-            key={concern}
-            label={concern}
-            selected={selectedConcerns.includes(concern)}
-            onClick={() => handleConcernClick(concern)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -468,23 +472,24 @@ export function Question11() {
 }
 
 export function Question12() {
+  const { responses, updateResponse } = useQuestionnaire();
   const finishes = ["Matte", "Dewy", "Natural", "Satin", "Luminous"];
 
-  const [selectedFinish, setSelectedFinish] = useState<string | null>(null);
+  const selectedValues = (responses.makeupFinishes as string[]) || [];
 
-  const handleFinishClick = (label: string) => {
-    setSelectedFinish(label);
+  const handleSelect = (value: string) => {
+    updateResponse("makeupFinishes", value, true);
   };
 
   return (
     <QuestionLayout title="What are your preferred makeup finishes?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
-        {finishes.map((finish) => (
+        {finishes.map((option) => (
           <Pill
-            key={finish}
-            label={finish}
-            selected={selectedFinish === finish}
-            onClick={() => handleFinishClick(finish)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -493,20 +498,26 @@ export function Question12() {
 }
 
 export function Question13() {
-  const [hasAllergy, setHasAllergy] = useState<boolean>(false);
-  const [allergyText, setAllergyText] = useState<string | undefined>("");
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const handleAllergyClick = (value: boolean) => {
-    setHasAllergy(value);
+  const isNoSelected = responses.makeupAllergies === false;
+
+  const handleSelect = (value: boolean) => {
+    updateResponse("makeupAllergies", value);
     if (!value) {
-      setAllergyText("");
+      updateResponse("makeupAllergyDetails", "");
     }
   };
 
-  const handleInputChange = (newValue: string) => {
-    setAllergyText(newValue);
-    if (newValue !== "") {
-      setHasAllergy(true);
+  const inputValue = responses.makeupAllergyDetails as string;
+
+  const handleInput = (value: string) => {
+    if (value.trim()) {
+      updateResponse("makeupAllergies", true);
+      updateResponse("makeupAllergyDetails", value);
+    } else {
+      updateResponse("makeupAllergies", false);
+      updateResponse("makeupAllergyDetails", "");
     }
   };
 
@@ -516,13 +527,13 @@ export function Question13() {
         <PillInput
           pillLabel="Yes"
           placeholder="Please Specify"
-          value={allergyText}
-          onChange={handleInputChange}
+          value={inputValue}
+          onChange={handleInput}
         />
         <Pill
           label="No"
-          selected={hasAllergy === false}
-          onClick={() => handleAllergyClick(false)}
+          selected={isNoSelected}
+          onClick={() => handleSelect(false)}
         />
       </div>
     </QuestionLayout>
@@ -530,23 +541,23 @@ export function Question13() {
 }
 
 export function Question14() {
-  const hairTypes = ["Straight", "Wavy", "Curly", "Coily"];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedHairType, setSelectedHairType] = useState<string | null>(null);
+  const selectedValue = responses.hairType as string;
 
-  const handleHairTypeClick = (label: string) => {
-    setSelectedHairType(label);
+  const handleSelect = (value: string) => {
+    updateResponse("hairType", value);
   };
 
   return (
-    <QuestionLayout title="What are your preferred makeup finishes?">
+    <QuestionLayout title="What is your hair type?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
-        {hairTypes.map((hairType) => (
+        {HAIR_TYPES.map((option) => (
           <Pill
-            key={hairType}
-            label={hairType}
-            selected={selectedHairType === hairType}
-            onClick={() => handleHairTypeClick(hairType)}
+            key={option}
+            label={option}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -555,36 +566,23 @@ export function Question14() {
 }
 
 export function Question15() {
-  const concerns = [
-    "Frizz",
-    "Dryness",
-    "Thinning",
-    "Dandruff",
-    "Oily Scalp",
-    "Spit Ends",
-    "Breakage",
-    "Color-treated",
-    "Volume",
-    "Hair Loss",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
+  const selectedValues = (responses.hairConcerns as string[]) || [];
 
-  const handleConcernClick = (label: string) => {
-    setSelectedConcerns((prev) =>
-      prev.includes(label) ? prev.filter((c) => c !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("hairConcerns", value, true);
   };
 
   return (
     <QuestionLayout title="What are your main hair concerns?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {concerns.map((concern) => (
+        {HAIR_CONCERNS.map((option) => (
           <Pill
-            key={concern}
-            label={concern}
-            selected={selectedConcerns.includes(concern)}
-            onClick={() => handleConcernClick(concern)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -593,6 +591,7 @@ export function Question15() {
 }
 
 export function Question16() {
+  const { responses, updateResponse } = useQuestionnaire();
   const products = [
     "Shampoo",
     "Conditioner",
@@ -605,23 +604,21 @@ export function Question16() {
     "Serum",
   ];
 
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const selectedValues = (responses.hairProducts as string[]) || [];
 
-  const handleProductClick = (label: string) => {
-    setSelectedProducts((prev) =>
-      prev.includes(label) ? prev.filter((p) => p !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("hairProducts", value, true);
   };
 
   return (
     <QuestionLayout title="What hair care products do you use regularly?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {products.map((product) => (
+        {products.map((option) => (
           <Pill
-            key={product}
-            label={product}
-            selected={selectedProducts.includes(product)}
-            onClick={() => handleProductClick(product)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -630,25 +627,24 @@ export function Question16() {
 }
 
 export function Question17() {
+  const { responses, updateResponse } = useQuestionnaire();
   const frequencies = ["Daily", "Every Other Day", "Twice a Week", "Weekly"];
 
-  const [selectedFrequency, setSelectedFrequency] = useState<string | null>(
-    null
-  );
+  const selectedValue = responses.hairWashFrequency as string;
 
-  const handleFrequencyClick = (label: string) => {
-    setSelectedFrequency(label);
+  const handleSelect = (value: string) => {
+    updateResponse("hairWashFrequency", value);
   };
 
   return (
     <QuestionLayout title="How often do you wash your hair?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
-        {frequencies.map((frequency) => (
+        {frequencies.map((option) => (
           <Pill
-            key={frequency}
-            label={frequency}
-            selected={selectedFrequency === frequency}
-            onClick={() => handleFrequencyClick(frequency)}
+            key={option}
+            label={option}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -657,23 +653,37 @@ export function Question17() {
 }
 
 export function Question18() {
+  const { responses, updateResponse } = useQuestionnaire();
   const tools = ["Hair Dryer", "Straightener", "Curling Iron", "None"];
 
-  const [selectedTool, setSelectedTool] = useState<string | null>(null);
+  const selectedValues = (responses.heatStylingTools as string[]) || [];
 
-  const handleToolClick = (label: string) => {
-    setSelectedTool(label);
+  /*const handleSelect = (value: string) => {
+    updateResponse("heatStylingTools", value, true);
+  };*/
+  const handleSelect = (value: string) => {
+    if (value === "None") {
+      // If "None" is selected, clear other selections and only keep "None"
+      updateResponse("heatStylingTools", ["None"]);
+    } else {
+      // If any tool is selected, remove "None" from the selection if present
+      const newSelection = selectedValues.includes(value)
+        ? selectedValues.filter((v) => v !== value) // Deselect if already selected
+        : [...selectedValues.filter((v) => v !== "None"), value]; // Deselect "None" and add the new selection
+
+      updateResponse("heatStylingTools", newSelection);
+    }
   };
 
   return (
     <QuestionLayout title="Do you use any heat styling tools?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
-        {tools.map((tool) => (
+        {tools.map((option) => (
           <Pill
-            key={tool}
-            label={tool}
-            selected={selectedTool === tool}
-            onClick={() => handleToolClick(tool)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -682,20 +692,26 @@ export function Question18() {
 }
 
 export function Question19() {
-  const [hasAllergy, setHasAllergy] = useState<boolean>(false);
-  const [allergyText, setAllergyText] = useState<string | undefined>("");
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const handleAllergyClick = (value: boolean) => {
-    setHasAllergy(value);
+  const isNoSelected = responses.hairAllergies === false;
+
+  const handleSelect = (value: boolean) => {
+    updateResponse("hairAllergies", value);
     if (!value) {
-      setAllergyText("");
+      updateResponse("hairAllergyDetails", "");
     }
   };
 
-  const handleInputChange = (newValue: string) => {
-    setAllergyText(newValue);
-    if (newValue !== "") {
-      setHasAllergy(true);
+  const inputValue = responses.hairAllergyDetails as string;
+
+  const handleInput = (value: string) => {
+    if (value.trim()) {
+      updateResponse("hairAllergies", true);
+      updateResponse("hairAllergyDetails", value);
+    } else {
+      updateResponse("hairAllergies", false);
+      updateResponse("hairAllergyDetails", "");
     }
   };
 
@@ -705,13 +721,13 @@ export function Question19() {
         <PillInput
           pillLabel="Yes"
           placeholder="Please Specify"
-          value={allergyText}
-          onChange={handleInputChange}
+          value={inputValue}
+          onChange={handleInput}
         />
         <Pill
           label="No"
-          selected={hasAllergy === false}
-          onClick={() => handleAllergyClick(false)}
+          selected={isNoSelected}
+          onClick={() => handleSelect(false)}
         />
       </div>
     </QuestionLayout>
@@ -719,31 +735,23 @@ export function Question19() {
 }
 
 export function Question20() {
-  const ageGroups = [
-    "Under 18",
-    "18-24",
-    "25-34",
-    "35-44",
-    "45-54",
-    "55-64",
-    "65+",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedAgeGroup, setSelectedAgeGroup] = useState<string | null>(null);
+  const selectedValue = responses.ageGroup as string;
 
-  const handleAgeGroupClick = (label: string) => {
-    setSelectedAgeGroup(label);
+  const handleSelect = (value: string) => {
+    updateResponse("ageGroup", value);
   };
 
   return (
     <QuestionLayout title=" What is your age?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
-        {ageGroups.map((ageGroup) => (
+        {AGE_GROUPS.map((option) => (
           <Pill
-            key={ageGroup}
-            label={ageGroup}
-            selected={selectedAgeGroup === ageGroup}
-            onClick={() => handleAgeGroupClick(ageGroup)}
+            key={option}
+            label={option}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -752,23 +760,23 @@ export function Question20() {
 }
 
 export function Question21() {
-  const genders = ["Female", "Male", "Non Binary", "Prefer not to say"];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedGender, setSelectedGender] = useState<string | null>(null);
+  const selectedValue = responses.gender as string;
 
-  const handleGenderClick = (label: string) => {
-    setSelectedGender(label);
+  const handleSelect = (value: string) => {
+    updateResponse("gender", value);
   };
 
   return (
     <QuestionLayout title="What is your gender?">
       <div className="mt-[60px] flex flex-col gap-[10px] ">
-        {genders.map((gender) => (
+        {GENDERS.map((option) => (
           <Pill
-            key={gender}
-            label={gender}
-            selected={selectedGender === gender}
-            onClick={() => handleGenderClick(gender)}
+            key={option}
+            label={option}
+            selected={selectedValue === option}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -785,36 +793,23 @@ export function Question22() {
 }
 
 export function Question23() {
-  const ingredients = [
-    "Parabens",
-    "Sulfates",
-    "Artificial Fragrances",
-    "Phthalates",
-    "Alcohol",
-    "Silicones",
-    "Mineral Oil",
-    "Gluten",
-    "Talc",
-    "Formaldehyde",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const selectedValues = (responses.ingredientsToAvoid as string[]) || [];
 
-  const handleIngredientClick = (label: string) => {
-    setSelectedIngredients((prev) =>
-      prev.includes(label) ? prev.filter((i) => i !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("ingredientsToAvoid", value, true);
   };
 
   return (
     <QuestionLayout title="Are there any ingredients you prefer to avoid in your beauty products?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {ingredients.map((ingredient) => (
+        {INGREDIENTS_TO_AVOID.map((option) => (
           <Pill
-            key={ingredient}
-            label={ingredient}
-            selected={selectedIngredients.includes(ingredient)}
-            onClick={() => handleIngredientClick(ingredient)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -823,33 +818,24 @@ export function Question23() {
 }
 
 export function Question24() {
-  const lifestylePreferences = [
-    "Vegan",
-    "Cruelty-free",
-    "Gluten-free",
-    "Organic",
-    "Non-GMO",
-    "Natural Ingredients",
-    "None",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
+  const selectedValues =
+    (responses.dietaryRestrictionsOrLifestylePreferences as string[]) || [];
 
-  const handlePreferenceClick = (label: string) => {
-    setSelectedPreferences((prev) =>
-      prev.includes(label) ? prev.filter((p) => p !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("dietaryRestrictionsOrLifestylePreferences", value, true);
   };
 
   return (
     <QuestionLayout title="Do you have any dietary restrictions or lifestyle preferences that affect your beauty product choices?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {lifestylePreferences.map((preference) => (
+        {LIFESTYLE_PREFERENCES.map((option) => (
           <Pill
-            key={preference}
-            label={preference}
-            selected={selectedPreferences.includes(preference)}
-            onClick={() => handlePreferenceClick(preference)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
@@ -858,38 +844,24 @@ export function Question24() {
 }
 
 export function Question25() {
-  const naturalIngredients = [
-    "Aloe Vera",
-    "Tea Tree Oil",
-    "Argan Oil",
-    "Shea Butter",
-    "Coconut Oil",
-    "Jojoba Oil",
-    "Hydraulic Acid",
-    "Green Tea",
-    "Chamomile",
-    "Rosehip Oil",
-    "Vitamin C",
-    "Retinol",
-  ];
+  const { responses, updateResponse } = useQuestionnaire();
 
-  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+  const selectedValues =
+    (responses.preferredNaturalIngredients as string[]) || [];
 
-  const handleIngredientClick = (label: string) => {
-    setSelectedIngredients((prev) =>
-      prev.includes(label) ? prev.filter((i) => i !== label) : [...prev, label]
-    );
+  const handleSelect = (value: string) => {
+    updateResponse("preferredNaturalIngredients", value, true);
   };
 
   return (
     <QuestionLayout title="Are there any specific natural ingredients you prefer in your beauty products?">
       <div className="flex flex-wrap gap-[10px] mb-[10px] ">
-        {naturalIngredients.map((ingredient) => (
+        {NATURAL_INGREDIENTS.map((option) => (
           <Pill
-            key={ingredient}
-            label={ingredient}
-            selected={selectedIngredients.includes(ingredient)}
-            onClick={() => handleIngredientClick(ingredient)}
+            key={option}
+            label={option}
+            selected={selectedValues.includes(option)}
+            onClick={() => handleSelect(option)}
           />
         ))}
       </div>
