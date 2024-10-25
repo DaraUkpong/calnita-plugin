@@ -3,7 +3,7 @@
 import { useAttention } from "@/components/BottomNav/AttentionContext";
 import DropdownMenu from "@/components/DropdownMenu";
 import FilterCarousel from "@/components/FilterCarousel";
-import ProductList from "@/components/ProductList";
+import { ProductList } from "@/components/ProductList";
 import ProfileReminderModal from "@/components/ProfileReminderModal";
 import { generateMockRecommendations, getUniqueFilters } from "@/mock/mockdata";
 import { Product } from "@/types";

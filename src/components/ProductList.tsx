@@ -1,45 +1,52 @@
-// app/components/ProductList.tsx
-
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Product } from '../types';
+import React, { useRef } from "react";
+import { AnimatePresence } from "framer-motion";
+import { Product } from "../types";
+import { ProductCard } from "./ProductCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ProductListProps {
   products: Product[];
 }
 
-const ProductList: React.FC<ProductListProps> = ({ products }) => {
+export function ProductList({ products }: ProductListProps) {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 150; // Amount to scroll in pixels
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <div className="w-full overflow-x-auto h-full">
-      
-      
-     
+    <div className="w-full relative px-[20px] ">
+      <button
+        className="absolute left-0 top-[98px] z-10 rounded-full hover:bg-gray-200 transition"
+        onClick={() => scroll("left")}
+      >
+        <ChevronLeft size={20} />
+      </button>
+
       <AnimatePresence>
-        <div className="flex flex-nowrap gap-3 md:p-4 p-2 h-full">
+        <div
+          ref={scrollRef}
+          className="flex flex-nowrap gap-[25px] overflow-x-auto scrollbar-hidden "
+        >
           {products.map((product) => (
-            <motion.div
-              key={product.id}
-              className="flex-shrink-0 flex flex-col items-start justify-between w-16 md:w-36 h-full"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-[70%] rounded-xl object-cover"
-              />
-              <div className='h-1/4'>
-                <h3 className="font-light md:text-xs text-[10px]">{product.name}</h3>
-                <p className="md:text-base text-sm">${product.price.toFixed(2)}</p>
-              </div>
-            </motion.div>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </AnimatePresence>
+
+      <button
+        className="absolute right-0 top-[98px] z-10 rounded-full hover:bg-gray-200 transition"
+        onClick={() => scroll("right")}
+      >
+        <ChevronRight size={20} />
+      </button>
     </div>
   );
-};
-
-export default ProductList;
+}
