@@ -92,7 +92,7 @@ export interface UpdateUserInput {
     concerns?: string[];
     regularProducts?: string[];
     washFrequency?: string;
-    heatStylingTools?: string;
+    heatStylingTools?: string[];
     allergies?: string;
   };
   productPreferences?: {
