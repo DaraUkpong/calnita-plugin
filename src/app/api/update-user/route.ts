@@ -1,4 +1,4 @@
-import { graphqlClient, UPDATE_USER_MUTATION } from "@/services/graphql";
+import { graphqlClient, UPDATE_ME_MUTATION } from "@/services/graphql";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/[...nextauth]/authOption";
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Perform the GraphQL request
-    const data: any = await graphqlClient.request(UPDATE_USER_MUTATION, {
+    const data: any = await graphqlClient.request(UPDATE_ME_MUTATION, {
       input,
     });
 

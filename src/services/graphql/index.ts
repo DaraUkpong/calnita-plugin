@@ -1,3 +1,3 @@
 export * from "./client";
-export * from "./mutations/auth";
-export * from "./mutations/user";
+export * from "./mutations";
+export * from "./queries";

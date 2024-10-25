@@ -1,4 +1,4 @@
-import { authenticateWithOTP } from "@/services/auth";
+import { authenticateWithEmail } from "@/services/auth/auth";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -25,15 +25,18 @@ export const authOptions: NextAuthOptions = {
         otp: { label: "OTP", type: "text" },
       },
       async authorize(credentials) {
+        if (!credentials) return null;
+
         //console.log("Authorize function called with credentials:", credentials);
-        const user = await authenticateWithOTP(
-          credentials?.email,
-          credentials?.otp
+
+        const authResponse = await authenticateWithEmail(
+          credentials.email,
+          credentials.otp
         );
 
-        if (user) {
+        if (authResponse.success && authResponse.user) {
           // console.log("User authenticated successfully:", user);
-          return user;
+          return authResponse.user;
         } else {
           // console.log("Authentication failed");
           return null;
@@ -43,7 +46,6 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/auth",
-    newUser: "/onboarding",
   },
   session: {
     strategy: "jwt",
