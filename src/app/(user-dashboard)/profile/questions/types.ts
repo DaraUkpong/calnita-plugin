@@ -18,8 +18,6 @@ export type Response = Partial<
 */
 // types.ts
 
-import { AgeRange } from "@/services/graphql/types";
-
 export type Category =
   | "Skin Care"
   | "Makeup"
@@ -75,7 +73,7 @@ export interface Response {
   hairAllergyDetails?: string;
 
   // General/Profile Information
-  ageGroup?: AgeRange;
+  ageGroup?: string;
   gender?: string;
   country?: string;
 
