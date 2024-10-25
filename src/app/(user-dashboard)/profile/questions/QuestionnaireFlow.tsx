@@ -1,6 +1,6 @@
 import ProgressBar from "@/components/ProgressBar";
 import { useQuestionnaire } from "./context";
-import React from "react";
+import React, { useState } from "react";
 import { updateUser } from "@/services/user";
 import { useSession } from "next-auth/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -13,10 +13,14 @@ export function QuestionnaireFlow() {
     currentQuestionIndex,
     totalQuestions,
     selectedCategories,
+    responses,
   } = useQuestionnaire();
 
   const CurrentQuestionComponent =
     mergedQuestions[currentQuestionIndex]?.component;
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Calculate progress as a percentage
   const progress =
@@ -26,16 +30,43 @@ export function QuestionnaireFlow() {
 
   const { data: session } = useSession();
 
-  const handleFinish = async (formData: any) => {
-    alert("Questionnaire Completed!");
-    return;
-    if (!session) return;
-    const response = await updateUser({
-      formData,
-      userId: session?.user?.id,
-    });
+  const handleFinish = async () => {
+    setLoading(true);
+    setError(null);
 
-    if (response?.ok) alert("Profile updated successfully");
+    //console.log(formData);
+    //return;
+    if (!session) {
+      setError("User session not found. Please log in again.");
+      setLoading(false);
+      return;
+    }
+
+    if (!responses || Object.keys(responses).length === 0) {
+      setError("Please answer all required questions.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      //console.log("calling the updateUser fn");
+      const response = await updateUser({
+        formData: responses,
+        userId: session?.user?.id,
+      });
+
+      if (response?.ok) {
+        alert("Profile updated successfully");
+      } else {
+        setError(
+          "An error occurred while updating your profile. Please try again."
+        );
+      }
+    } catch (e) {
+      setError("Submission failed. Please check your network and try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -94,13 +125,18 @@ export function QuestionnaireFlow() {
 
       {/* Finish Button */}
       {currentQuestionIndex === mergedQuestions.length - 1 && (
-        <div className="p-4 flex justify-center fixed bottom-[68px] left-0 right-0 backdrop-blur-md backdrop-opacity-60 bg-[rgb(250, 246, 246)]/30 w-fit rounded-[20px] ">
+        <div className="p-4 flex justify-center items-center gap-4 fixed bottom-[68px] left-0 right-0 backdrop-blur-md backdrop-opacity-60 bg-[rgb(250, 246, 246)]/30 w-fit rounded-[20px] ">
           <button
             onClick={handleFinish}
-            className="w-[204px] h-[69px] rounded-[20px] bg-black text-white text-[16px] font-semibold"
+            disabled={loading}
+            className="w-[204px] h-[69px] flex-shrink-0 rounded-[20px] bg-black text-white text-[16px] font-semibold"
           >
-            Finish
+            {loading ? "Submitting..." : "Finish"}
           </button>
+
+          {error && (
+            <div className="text-red-500 text-[14px] mt-[4px]">{error}</div>
+          )}
         </div>
       )}
     </div>
