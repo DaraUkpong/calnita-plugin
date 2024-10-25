@@ -51,7 +51,7 @@ export function QuestionnaireFlow() {
     try {
       //console.log("calling the updateUser fn");
       const response = await updateUser({
-        formData: responses,
+        formData: { ...responses, selectedCategories },
         userId: session?.user?.id,
       });
 
