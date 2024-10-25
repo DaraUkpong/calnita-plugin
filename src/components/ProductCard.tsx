@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
       transition={{ duration: 0.3 }}
     >
       <div className="w-[109px] h-[92px] overflow-hidden relative ">
-        <Image
+        {/*<Image
           src={product.image}
           alt={product.name}
           className="rounded-t-[10px] object-cover"
@@ -21,6 +21,12 @@ export function ProductCard({ product }: { product: Product }) {
           //height={92}
           fill
           sizes="109px"
+        />*/}
+        {/*eslint-disable-next-line @next/next/no-img-element*/}
+        <img
+          src={product.image}
+          alt={product.name}
+          className="rounded-t-[10px] object-cover w-full h-full"
         />
       </div>
 
