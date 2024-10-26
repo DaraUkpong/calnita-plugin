@@ -51,14 +51,15 @@ export interface User {
     concerns?: string[];
     regularProducts?: string[];
     washFrequency?: string;
-    heatStylingTools?: string;
+    heatStylingTools?: string[];
     allergies?: string;
   };
   productPreferences?: {
     ingredientsToAvoid?: string[];
     preferredNaturalIngredients?: string[];
     dietaryRestrictions?: string[];
-    preferredCategory?: string;
+    //preferredCategory?: string;
+    preferredCategories?: string[];
   };
 }
 
@@ -99,7 +100,8 @@ export interface UpdateUserInput {
     ingredientsToAvoid?: string[];
     preferredNaturalIngredients?: string[];
     dietaryRestrictions?: string[];
-    preferredCategory?: string;
+    //preferredCategory?: string;
+    preferredCategories?: string[];
   };
 }
 
