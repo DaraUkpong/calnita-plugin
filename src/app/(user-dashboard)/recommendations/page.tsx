@@ -74,7 +74,7 @@ const RecommendationsPage: React.FC = () => {
               alt="Product Cover Photo"
               width={50}
               height={50}
-              className="md:h-16 w-[50px] h-[50px] rounded-full md:w-16 object-cover bg-gray-200"
+              className="md:h-16 w-auto h-auto rounded-full md:w-16 object-cover bg-gray-200"
             />
             <DropdownMenu
               showMenu={showMenu}
@@ -83,10 +83,9 @@ const RecommendationsPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col ">
+        <div className="flex-1 overflow-y-auto flex flex-col gap-8 pb-4 scrollbar-hidden ">
           {/**TODO: this is the based-on-mariam's-look-like style it and extract it as a component */}
-          {/**TODO: check to switch the bg to bg-[#DBB9B91A] which is the figma style color, if it doesn't match, there is problem somewhere with the bg color of a higher div or of the frame */}
-          <div className="w-full h-fit bg-[#DBB9B9]/25 rounded-[20px] ">
+          <div className="w-full bg-[#DBB9B91A] rounded-[20px] pb-[41px] ">
             <h2 className="md:text-xl text-[20px] font-semibold md:py-4 md:px-4 px-[21px] pt-[21px] ">
               Based on Your Preferrences
             </h2>
@@ -101,6 +100,16 @@ const RecommendationsPage: React.FC = () => {
             />
             <ProductList products={recommendations} />
           </div>
+
+          {/* Example of a second preference-based div */}
+          <div className="w-full bg-[#DBB9B91A] rounded-[20px] pb-[41px]">
+            <h2 className="md:text-xl text-[20px] font-semibold md:py-4 md:px-4 px-[21px] pt-[21px]">
+              Based on Your Concerns
+            </h2>
+            <ProductList products={recommendations.slice(0, 5)} />
+          </div>
+
+          {/* You can add more preference-based divs here */}
         </div>
       </div>
       <ProfileReminderModal isOpen={isModalOpen} onClose={closeModal} />
