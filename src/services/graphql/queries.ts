@@ -41,7 +41,8 @@ export const ME_QUERY = gql`
         ingredientsToAvoid
         preferredNaturalIngredients
         dietaryRestrictions
-        preferredCategory
+        #preferredCategory
+        preferredCategories
       }
     }
   }
@@ -88,7 +89,8 @@ export const USER_QUERY = gql`
         ingredientsToAvoid
         preferredNaturalIngredients
         dietaryRestrictions
-        preferredCategory
+        #preferredCategory
+        preferredCategories
       }
     }
   }

@@ -45,7 +45,8 @@ export const UPDATE_ME_MUTATION = gql`
           ingredientsToAvoid
           preferredNaturalIngredients
           dietaryRestrictions
-          preferredCategory
+          #preferredCategory
+          preferredCategories
         }
       }
     }
@@ -61,6 +62,45 @@ export const EMAIL_AUTH_MUTATION = gql`
       user {
         id
         email
+        personalInfo {
+          age
+          gender
+          country
+        }
+        skinCare {
+          skinType
+          primaryConcerns
+          currentProducts
+          routine
+          allergies
+        }
+        fragrance {
+          preferredScents
+          perfumeUseFrequency
+          strengthPreference
+          allergies
+        }
+        makeup {
+          dailyProducts
+          concerns
+          preferredFinishes
+          allergies
+        }
+        hairCare {
+          hairType
+          concerns
+          regularProducts
+          washFrequency
+          heatStylingTools
+          allergies
+        }
+        productPreferences {
+          ingredientsToAvoid
+          preferredNaturalIngredients
+          dietaryRestrictions
+          #preferredCategory
+          preferredCategories
+        }
       }
       authData {
         accessToken
@@ -92,6 +132,45 @@ export const GOOGLE_AUTH_MUTATION = gql`
       user {
         id
         email
+        personalInfo {
+          age
+          gender
+          country
+        }
+        skinCare {
+          skinType
+          primaryConcerns
+          currentProducts
+          routine
+          allergies
+        }
+        fragrance {
+          preferredScents
+          perfumeUseFrequency
+          strengthPreference
+          allergies
+        }
+        makeup {
+          dailyProducts
+          concerns
+          preferredFinishes
+          allergies
+        }
+        hairCare {
+          hairType
+          concerns
+          regularProducts
+          washFrequency
+          heatStylingTools
+          allergies
+        }
+        productPreferences {
+          ingredientsToAvoid
+          preferredNaturalIngredients
+          dietaryRestrictions
+          #preferredCategory
+          preferredCategories
+        }
       }
       authData {
         accessToken
@@ -110,6 +189,45 @@ export const REFRESH_TOKEN_MUTATION = gql`
       user {
         id
         email
+        personalInfo {
+          age
+          gender
+          country
+        }
+        skinCare {
+          skinType
+          primaryConcerns
+          currentProducts
+          routine
+          allergies
+        }
+        fragrance {
+          preferredScents
+          perfumeUseFrequency
+          strengthPreference
+          allergies
+        }
+        makeup {
+          dailyProducts
+          concerns
+          preferredFinishes
+          allergies
+        }
+        hairCare {
+          hairType
+          concerns
+          regularProducts
+          washFrequency
+          heatStylingTools
+          allergies
+        }
+        productPreferences {
+          ingredientsToAvoid
+          preferredNaturalIngredients
+          dietaryRestrictions
+          #preferredCategory
+          preferredCategories
+        }
       }
       authData {
         accessToken
