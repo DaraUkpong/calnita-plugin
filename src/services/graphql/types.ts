@@ -1,4 +1,5 @@
-import { Product } from "@/types";
+import { GET_PARTNER_BY_ID, ME_QUERY, USER_QUERY } from "./queries";
+import { graphql, ResultOf, VariablesOf } from "./tada";
 
 export enum AgeRange {
   Above_64 = "ABOVE_64",
@@ -10,128 +11,13 @@ export enum AgeRange {
   Under_18 = "UNDER_18",
 }
 
-interface IMutationResponse {
-  code: number;
-  success: boolean;
-  message: string;
-}
-
-interface AuthData {
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  personalInfo?: {
-    age?: AgeRange;
-    gender?: string;
-    country?: string;
-  };
-  skinCare?: {
-    skinType?: string;
-    primaryConcerns?: string[];
-    currentProducts?: string[];
-    routine?: string;
-    allergies?: string;
-  };
-  fragrance?: {
-    preferredScents?: string[];
-    perfumeUseFrequency?: string;
-    strengthPreference?: string;
-    allergies?: string;
-  };
-  makeup?: {
-    dailyProducts?: string[];
-    concerns?: string[];
-    preferredFinishes?: string[];
-    allergies?: string;
-  };
-  hairCare?: {
-    hairType?: string;
-    concerns?: string[];
-    regularProducts?: string[];
-    washFrequency?: string;
-    heatStylingTools?: string[];
-    allergies?: string;
-  };
-  productPreferences?: {
-    ingredientsToAvoid?: string[];
-    preferredNaturalIngredients?: string[];
-    dietaryRestrictions?: string[];
-    //preferredCategory?: string;
-    preferredCategories?: string[];
-  };
-}
-
-export interface Partner {
-  id: string;
-  name: string;
-  siteUrl: string;
-  products: Product[]
-}
-
-export interface UpdateUserInput {
-  personalInfo?: {
-    age?: AgeRange;
-    gender?: string;
-    country?: string;
-  };
-  skinCare?: {
-    skinType?: string;
-    primaryConcerns?: string[];
-    currentProducts?: string[];
-    routine?: string;
-    allergies?: string;
-  };
-  fragrance?: {
-    preferredScents?: string[];
-    perfumeUseFrequency?: string;
-    strengthPreference?: string;
-    allergies?: string;
-  };
-  makeup?: {
-    dailyProducts?: string[];
-    concerns?: string[];
-    preferredFinishes?: string[];
-    allergies?: string;
-  };
-  hairCare?: {
-    hairType?: string;
-    concerns?: string[];
-    regularProducts?: string[];
-    washFrequency?: string;
-    heatStylingTools?: string[];
-    allergies?: string;
-  };
-  productPreferences?: {
-    ingredientsToAvoid?: string[];
-    preferredNaturalIngredients?: string[];
-    dietaryRestrictions?: string[];
-    //preferredCategory?: string;
-    preferredCategories?: string[];
-  };
-}
-
-//When using graphql-request, the client automatically unwraps the data layer
-//but this is only used when making  request without the client
-export interface GraphqlResponse<T> {
-  data: T;
-}
-
-export interface MeQueryResponse {
-  me: User;
-}
-
-export interface UserQueryResponse {
-  user: User;
-}
-export interface PartnerQueryResponse {
-  partner: Partner;
-}
-
-export interface UserMutationResponse extends IMutationResponse {
-  user?: User;
-  authData?: AuthData;
-}
+export type User = ResultOf<typeof ME_QUERY>["me"];
+//export type MeQueryResult = ResultOf<typeof ME_QUERY>;
+//export type UserQueryResult = ResultOf<typeof USER_QUERY>;
+//export type UserQueryVariables = VariablesOf<typeof USER_QUERY>;
+export type Partner = ResultOf<typeof GET_PARTNER_BY_ID>["partner"];
+//export type PartnerQueryResult = ResultOf<typeof GET_PARTNER_BY_ID>;
+//export type PartnerQueryVariables = VariablesOf<typeof GET_PARTNER_BY_ID>;
+export type UpdateUserInput = ReturnType<
+  typeof graphql.scalar<"UpdateUserInput">
+>;
