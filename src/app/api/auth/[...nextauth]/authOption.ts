@@ -1,3 +1,4 @@
+import { mapUserToResponse } from "@/app/(user-dashboard)/profile/questions/mappings";
 import { authenticateWithEmail } from "@/services/auth/auth";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -35,8 +36,9 @@ export const authOptions: NextAuthOptions = {
         );
 
         if (authResponse.success && authResponse.user) {
-          // console.log("User authenticated successfully:", user);
+          //console.log("User authenticated successfully:", authResponse.user);
           //return authResponse.user;
+          //TODO check if it is better to set the graphql client header here after a success
           return {
             ...authResponse.user,
             accessToken: authResponse.authData?.accessToken,
@@ -57,21 +59,37 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
+        token.userData = user;
+      }
+
+      // Handle session update
+      if (trigger === "update" && session?.userData) {
+        token.userData = session.userData;
       }
       return token;
     },
     async session({ session, token }) {
       //console.log("Session callback:", { session, token });
       if (session.user) {
-        session.user.id = token.id;
-        session.user.email = token.email;
-        session.user.accessToken = token.accessToken;
+        session.user = {
+          ...session.user,
+          id: token.id,
+          email: token.email,
+          accessToken: token.accessToken,
+          ...token.userData,
+          // Map user data to questionnaire responses
+          questionnaireResponses: mapUserToResponse(token.userData),
+        };
+        console.log(
+          "questionnaireResponses is:",
+          session.user.questionnaireResponses
+        );
       }
       return session;
     },

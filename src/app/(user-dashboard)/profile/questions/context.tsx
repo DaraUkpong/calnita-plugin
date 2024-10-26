@@ -1,9 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { questionsByCategory } from "./questionsByCategory";
 import { Question0 } from "./components";
 import { Category, Question, Response } from "./types";
+import { useSession } from "next-auth/react";
 
 type QuestionnaireContextType = {
   currentQuestionIndex: number;
@@ -33,12 +34,23 @@ type QuestionnaireProviderProps = {
 export function QuestionnaireProvider({
   children,
 }: QuestionnaireProviderProps) {
-  // State for managing selected categories
+  const { data: session } = useSession();
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-
-  // Question tracking state (e.g., responses, progress)
   const [responses, setResponses] = useState<Response>({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  // Initialize responses from session data
+  useEffect(() => {
+    if (session?.user?.questionnaireResponses) {
+      const mappedResponses = session.user.questionnaireResponses;
+      setResponses(mappedResponses);
+      console.log(session);
+
+      // Set selected categories from the mapped responses
+      const categories = mappedResponses.selectedCategories || [];
+      setSelectedCategories(categories);
+    }
+  }, [session]);
 
   // Merge and deduplicate questions based on selected categories
   const mergedQuestions = React.useMemo(() => {

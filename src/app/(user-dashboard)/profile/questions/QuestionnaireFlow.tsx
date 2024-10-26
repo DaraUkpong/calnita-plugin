@@ -28,7 +28,7 @@ export function QuestionnaireFlow() {
       ? ((currentQuestionIndex + 1) / totalQuestions) * 100
       : 0; // Avoid division by zero
 
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
 
   const handleFinish = async () => {
     setLoading(true);
@@ -57,6 +57,16 @@ export function QuestionnaireFlow() {
 
       if (response?.ok) {
         alert("Profile updated successfully");
+        const data = await response.json();
+
+        if (data.success) {
+          // Trigger session update with new user data
+          await update({
+            userData: data.user,
+          });
+        }
+
+        return data;
       } else {
         setError(
           "An error occurred while updating your profile. Please try again."
