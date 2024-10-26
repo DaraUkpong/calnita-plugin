@@ -1,3 +1,5 @@
+import { Product } from "@/types";
+
 export enum AgeRange {
   Above_64 = "ABOVE_64",
   Between_18And_24 = "BETWEEN_18_AND_24",
@@ -63,6 +65,13 @@ export interface User {
   };
 }
 
+export interface Partner {
+  id: string;
+  name: string;
+  siteUrl: string;
+  products: Product[]
+}
+
 export interface UpdateUserInput {
   personalInfo?: {
     age?: AgeRange;
@@ -117,6 +126,9 @@ export interface MeQueryResponse {
 
 export interface UserQueryResponse {
   user: User;
+}
+export interface PartnerQueryResponse {
+  partner: Partner;
 }
 
 export interface UserMutationResponse extends IMutationResponse {

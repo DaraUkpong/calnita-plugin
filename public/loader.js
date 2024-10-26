@@ -1,4 +1,7 @@
 (function () {
+
+
+
   var launcherImage = document.createElement("img");
   launcherImage.id = "widget-launcher";
   launcherImage.src = "http://localhost:3000/widget-icon.png";
@@ -62,8 +65,15 @@
 
   wrapperDiv.appendChild(launcherImageInIframe);
 
+  // Get the brand ID from the script tag
+  const scriptTag = document.currentScript;
+  const partnerId = scriptTag.getAttribute('data-partner-id');
+
+
   var iframe = document.createElement("iframe");
-  iframe.src = "http://localhost:3000";
+  // Add partnerId to the iframe URL as a query parameter
+  iframe.src = `http://localhost:3000?partnerId=${partnerId}`;
+
   iframe.title = "Calnta Beauty Assistant Widget";
   iframe.style.width = "100%";
   iframe.style.height = "100%";

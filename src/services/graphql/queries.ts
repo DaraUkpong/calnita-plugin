@@ -95,3 +95,22 @@ export const USER_QUERY = gql`
     }
   }
 `;
+
+export const PARTNER_QUERY = gql`
+query CurrentPartner {
+  currentPartner {
+    id
+    siteUrl
+    products {
+      id
+      imageUrl
+      name
+      ingredients
+      suitableSkinTypes
+      targetedConcerns
+      price
+      category
+    }
+    name
+  }
+}`;

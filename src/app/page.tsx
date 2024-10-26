@@ -4,9 +4,11 @@ import React from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import DynamicTypewriter from "@/components/DynamicTypewriter";
+import { useBrand } from "@/context/PartnerDataProvider";
 
 const HomePage = () => {
   const { data: session } = useSession();
+  const {partnerData, isLoading, error } = useBrand();
   const router = useRouter();
 
   // Handler for "Let's Go" button click
@@ -25,7 +27,7 @@ const HomePage = () => {
         <h1>&quot;👋Welcome to</h1>
         {/*<h1 className="max-w-full truncate ">DaraologyiticaSofiariatana!</h1>*/}
         <DynamicTypewriter
-          text="DaraologyiticaSofiariatana!"
+          text={partnerData?.name! || "Calnita"}
           typingSpeed={100}
         />
       </div>
