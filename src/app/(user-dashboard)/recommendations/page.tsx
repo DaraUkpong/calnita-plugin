@@ -9,8 +9,12 @@ import { generateMockRecommendations, getUniqueFilters } from "@/mock/mockdata";
 import { Product } from "@/types";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { isProfileComplete } from "./utils";
+import { useSession } from "next-auth/react";
 
 const RecommendationsPage: React.FC = () => {
+  const { data: session } = useSession();
+  const questionnaireResponses = session?.user?.questionnaireResponses;
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [showMenu, setShowMenu] = useState(false);
@@ -36,12 +40,17 @@ const RecommendationsPage: React.FC = () => {
   const { setAttention } = useAttention();
 
   useEffect(() => {
-    // Simulate fetching profile data and determining if attention is needed
-    const isProfileComplete = false; // Example logic
+    if (questionnaireResponses) {
+      // Check if the profile is complete
+      const profileComplete = isProfileComplete(questionnaireResponses);
 
-    setIsModalOpen(!isProfileComplete);
-    // Set the attention flag for the profile tab
-    setAttention("profile", !isProfileComplete);
+      setIsModalOpen(!profileComplete); // Show modal if profile is incomplete
+      setAttention("profile", !profileComplete); // Set attention flag
+    } else {
+      // If there's no questionnaire data, assume the profile is incomplete
+      setIsModalOpen(true);
+      setAttention("profile", true);
+    }
   }, []);
 
   return (
