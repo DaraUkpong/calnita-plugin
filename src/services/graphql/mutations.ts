@@ -1,6 +1,6 @@
-import { gql } from "graphql-request";
+import { graphql } from "./tada";
 
-export const UPDATE_ME_MUTATION = gql`
+export const UPDATE_ME_MUTATION = graphql(`
   mutation UpdateMe($input: UpdateUserInput!) {
     updateMe(input: $input) {
       code
@@ -51,9 +51,9 @@ export const UPDATE_ME_MUTATION = gql`
       }
     }
   }
-`;
+`);
 
-export const EMAIL_AUTH_MUTATION = gql`
+export const EMAIL_AUTH_MUTATION = graphql(`
   mutation UserEmailAuth($email: String!, $otp: String!) {
     userEmailAuth(email: $email, otp: $otp) {
       code
@@ -108,9 +108,9 @@ export const EMAIL_AUTH_MUTATION = gql`
       }
     }
   }
-`;
+`);
 
-export const REQUEST_OTP_MUTATION = gql`
+export const REQUEST_OTP_MUTATION = graphql(`
   mutation RequestOTP($email: String!) {
     requestOTP(email: $email) {
       code
@@ -118,9 +118,9 @@ export const REQUEST_OTP_MUTATION = gql`
       message
     }
   }
-`;
+`);
 
-export const GOOGLE_AUTH_MUTATION = gql`
+export const GOOGLE_AUTH_MUTATION = graphql(`
   mutation UserGoogleAuth($googleIdToken: String, $googleAuthCode: String) {
     userGoogleAuth(
       googleIdToken: $googleIdToken
@@ -178,9 +178,9 @@ export const GOOGLE_AUTH_MUTATION = gql`
       }
     }
   }
-`;
+`);
 
-export const REFRESH_TOKEN_MUTATION = gql`
+export const REFRESH_TOKEN_MUTATION = graphql(`
   mutation UserRefreshToken($refreshToken: String!) {
     userRefreshToken(refreshToken: $refreshToken) {
       code
@@ -235,4 +235,4 @@ export const REFRESH_TOKEN_MUTATION = gql`
       }
     }
   }
-`;
+`);

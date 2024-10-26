@@ -1,6 +1,6 @@
-import { gql } from "graphql-request";
+import { graphql } from "./tada";
 
-export const ME_QUERY = gql`
+export const ME_QUERY = graphql(`
   query Me {
     me {
       id
@@ -46,9 +46,9 @@ export const ME_QUERY = gql`
       }
     }
   }
-`;
+`);
 
-export const USER_QUERY = gql`
+export const USER_QUERY = graphql(`
   query User($id: ID!) {
     user(id: $id) {
       id
@@ -94,4 +94,4 @@ export const USER_QUERY = gql`
       }
     }
   }
-`;
+`);
