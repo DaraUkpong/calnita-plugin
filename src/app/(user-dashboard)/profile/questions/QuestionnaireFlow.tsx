@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { updateUser } from "@/services/user";
 import { useSession } from "next-auth/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function QuestionnaireFlow() {
   const {
@@ -29,6 +30,7 @@ export function QuestionnaireFlow() {
       : 0; // Avoid division by zero
 
   const { data: session, update } = useSession();
+  const router = useRouter();
 
   const handleFinish = async () => {
     setLoading(true);
@@ -64,9 +66,10 @@ export function QuestionnaireFlow() {
           await update({
             userData: data.user,
           });
-        }
 
-        return data;
+          // Redirect to the recommendations page after successful submission
+          router.replace("/recommendations");
+        }
       } else {
         setError(
           "An error occurred while updating your profile. Please try again."
