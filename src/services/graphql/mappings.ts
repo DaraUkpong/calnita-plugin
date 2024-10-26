@@ -4,12 +4,13 @@ import { AgeRange, UpdateUserInput } from "./types";
 export const mapResponsesToUserInput = (
   responses: Response
 ): UpdateUserInput => {
+  //console.log("mapResponsesToUserInput called with:", responses);
   return {
     // Map personal information
     personalInfo: {
       age: mapAgeGroupToEnum(responses.ageGroup || ""),
       gender: responses.gender,
-      country: responses.country,
+      //country: responses.country,
     },
 
     // Map skin care-related information
@@ -53,8 +54,8 @@ export const mapResponsesToUserInput = (
       preferredNaturalIngredients: responses.preferredNaturalIngredients || [],
       dietaryRestrictions:
         responses.dietaryRestrictionsOrLifestylePreferences || [],
-      //preferredCategories: responses.selectedCategories,//TODO add the support to the backend
-      preferredCategory: responses.selectedCategories?.[0],
+      preferredCategories: responses.selectedCategories,
+      //preferredCategory: responses.selectedCategories?.[0],
     },
   };
 };
