@@ -1,6 +1,6 @@
-import { gql } from "graphql-request";
+import { graphql } from "./tada";
 
-export const ME_QUERY = gql`
+export const ME_QUERY = graphql(`
   query Me {
     me {
       id
@@ -46,9 +46,9 @@ export const ME_QUERY = gql`
       }
     }
   }
-`;
+`);
 
-export const USER_QUERY = gql`
+export const USER_QUERY = graphql(`
   query User($id: ID!) {
     user(id: $id) {
       id
@@ -94,4 +94,31 @@ export const USER_QUERY = gql`
       }
     }
   }
-`;
+`);
+
+export const GET_PARTNER_BY_ID = graphql(`
+  query Partner($id: ID!) {
+    partner(id: $id) {
+      id
+      email
+      name
+      siteUrl
+      products {
+        id
+        name
+        category
+        price
+        imageUrl
+        suitableSkinTypes
+        targetedConcerns
+        ingredients
+        creator {
+          id
+          name
+          email
+          siteUrl
+        }
+      }
+    }
+  }
+`);
